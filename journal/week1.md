@@ -105,7 +105,7 @@ networks:
 - Use `docker ps` to verify:
 
 ![image](https://user-images.githubusercontent.com/64602124/220921139-1c9d0601-aa00-4a85-8df6-4889c82424fb.png)
-
+- Clean up using `docker stop <container_id 1> <container_id 2> && docker rm <container_id 1> <container_id 2>`
 
 
 
