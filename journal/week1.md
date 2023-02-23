@@ -62,11 +62,49 @@ CMD ["npm", "start"]
 - Build the frontend image using: `docker build -t frontend-react-js ./frontend-react-js`. Use `docker images` to verify the image was built:
 ![image](https://user-images.githubusercontent.com/64602124/220914694-b77cc7b5-447d-4b60-9cae-1bce9e90891e.png)
 - Run the container using `docker run -d -p 3000:3000 frontend-react-js`. Verify at the URL, you should get this page:
-![image](https://user-images.githubusercontent.com/64602124/220915336-1581eda5-1a30-4325-b6c4-6f56014daba7.png)
+
+![image](https://user-images.githubusercontent.com/64602124/220920137-7f8dd47f-1bea-4904-8367-55f9e3c76245.png)
+
+- Use `docker ps` to view running container & get the `container_id` then stop and remove the container using: `docker stop <container_id> && docker rm <container_id>`
 
 
 #### Docker Compose... _Running Multiple Containers_
+- Create the `docker-compose.yml` file in the root directory and update it using:
+``` yaml
+version: "3.8"
+services:
+  backend-flask:
+    environment:
+      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./backend-flask
+    ports:
+      - "4567:4567"
+    volumes:
+      - ./backend-flask:/backend-flask
+  frontend-react-js:
+    environment:
+      REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./frontend-react-js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend-react-js:/frontend-react-js
 
+# the name flag is a hack to change the default prepend folder
+# name when outputting the image names
+networks: 
+  internal-network:
+    driver: bridge
+    name: cruddur
+```
+- Run the `docker-compose.yml` file using `docker compose up -d` This builds both the frontend & backend in one go.
+
+![image](https://user-images.githubusercontent.com/64602124/220921094-17aa6efd-c50f-40d3-844a-b84f2dd93d0c.png)
+
+- Use `docker ps` to verify:
+
+![image](https://user-images.githubusercontent.com/64602124/220921139-1c9d0601-aa00-4a85-8df6-4889c82424fb.png)
 
 
 
