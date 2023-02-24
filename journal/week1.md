@@ -172,7 +172,7 @@ class NotificationActivities:
 ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week1_notificationData.png)
 
 ##### The Frontend
-- I created the NotificationsPage as populated in ➡️ **_link to file in this repo_**
+- I created the NotificationsPage as populated in ➡️ _[NotificationsFeedPage.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/NotificationsFeedPage.js)_
 - In the `src/App.js` I imported the page for the Notifications and add a path to it:
 ``` js
 import NotificationsFeedPage from './pages/NotificationsFeedPage';
