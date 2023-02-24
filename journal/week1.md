@@ -185,12 +185,74 @@ import NotificationsFeedPage from './pages/NotificationsFeedPage';
 - Upon testing, I was able to see my data at the `/notifications` endpoint:
 ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week1_notificationFrontend.png)
 
+#### Adding Volumes
+After updating the `docker-compose.yml` files with the DynamoDB & Postgres services, I did `docker compose up` to get the apps and DBs running.
+##### DynamoDB:
+- I updated my `docker-compose.yml` file using the AWS provided [setup for DynamoDB Local](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html) for Docker.
 
+###### Creating table to test with:
+- I created a DynamoDB Table:
+``` sh
+aws dynamodb create-table \
+    --endpoint-url http://localhost:8000 \
+    --table-name Music \
+    --attribute-definitions \
+        AttributeName=Artist,AttributeType=S \
+        AttributeName=SongTitle,AttributeType=S \
+    --key-schema AttributeName=Artist,KeyType=HASH AttributeName=SongTitle,KeyType=RANGE \
+    --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
+    --table-class STANDARD
+```
+- I created a table item:
+``` sh
+aws dynamodb put-item \
+    --endpoint-url http://localhost:8000 \
+    --table-name Music \
+    --item \
+        '{"Artist": {"S": "No One You Know"}, "SongTitle": {"S": "Call Me Today"}, "AlbumTitle": {"S": "Somewhat Famous"}}' \
+    --return-consumed-capacity TOTAL  
+```
+- To view the table, I used: 
+``` sh
+aws dynamodb list-tables --endpoint-url http://localhost:8000
+```
+- Got table records using:
+``` sh
+aws dynamodb scan --table-name Music --query "Items" --endpoint-url http://localhost:8000
+```
+- I got records showing that interacting with the DynamoDB Local DB was successful
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week1_ddb_local_results.png)
 
-
-
-
-
+##### Postgres:
+- I populated the `docker-compose.yml` by adding this code to the services section:
+``` yml
+services:
+  db:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
+```
+- Postgres requires a client to run. I added the task in `gitpod.yml` file to persist the postgres client installation everytime I start up GitPod.
+``` yml
+  - name: postgres
+    init: |
+      curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
+      echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+      sudo apt update
+      sudo apt install -y postgresql-client-13 libpq-dev
+```
+- For now, within my terminal, I ran through the cmds individually to install them
+- I checked if my client was running using ` psql -Upostgres -h localhost` and inputted the password to make a connection to my postgres db which was successful
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week1_postgres_connected.png)
 
 
 
