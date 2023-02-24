@@ -107,6 +107,99 @@ networks:
 ![image](https://user-images.githubusercontent.com/64602124/220921139-1c9d0601-aa00-4a85-8df6-4889c82424fb.png)
 - Clean up using `docker stop <container_id 1> <container_id 2> && docker rm <container_id 1> <container_id 2>`
 
+#### Creating the Notification Feature
+##### The Backend
+- I started the `frontend` and `backend` apps using `docker compose up`. And in the Ports section of my GitPod, I opened both the FE & BE to make them public. And I was able to access the app by clicking on the URL. I hit the Join Now button & put in my credentials to login.
+- I added a new `OpenAPI` path for the notification feature and updated it like so:
+``` yaml
+  /api/activities/notifications:
+    get:
+      description: 'Return a feed of activity for people I follow'
+      tags:
+        - activities
+      parameters: []
+      responses:
+        '200':
+          description: Returns an array of activities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+```
+- I updated my `app.py` file, adding a route to the notifications:
+``` python
+@app.route("/api/activities/notifications", methods=['GET'])
+def data_notifications():
+  data = NotificationActivities.run()
+  return data, 200
+```
+- I also updated my imports to make a call to the newly created notification service in `app.py`
+``` python
+from services.notifications_activities import *
+```
+- Next, in my `services`, I created the `notifications_activities.py` microservice and populated it like so:
+``` python
+from datetime import datetime, timedelta, timezone
+
+class NotificationActivities:
+    def run():
+        now = datetime.now(timezone.utc).astimezone()
+        results = [{
+        'uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',
+        'handle':  'star',
+        'message': 'Let your light shine!',
+        'created_at': (now - timedelta(days=2)).isoformat(),
+        'expires_at': (now + timedelta(days=5)).isoformat(),
+        'likes_count': 5,
+        'replies_count': 1,
+        'reposts_count': 0,
+        'replies': [{
+            'uuid': '26e12864-1c26-5c3a-9658-97a10f8fea67',
+            'reply_to_activity_uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',
+            'handle':  'Worth',
+            'message': 'This post has honor!',
+            'likes_count': 0,
+            'replies_count': 0,
+            'reposts_count': 0,
+            'created_at': (now - timedelta(days=2)).isoformat()
+        }],
+        }]
+        return results
+```
+- I tested by heading over to the BE URL and appending `/api/activities/notifications` to get the data:
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week1_notificationData.png)
+
+##### The Frontend
+- I created the NotificationsPage as populated in ➡️ **_link to file in this repo_**
+- In the `src/App.js` I imported the page for the Notifications and add a path to it:
+``` js
+import NotificationsFeedPage from './pages/NotificationsFeedPage';
+# ... existing code
+{
+    path: "/notifications",
+    element: <NotificationsFeedPage />
+}
+```
+- Upon testing, I was able to see my data at the `/notifications` endpoint:
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week1_notificationFrontend.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
