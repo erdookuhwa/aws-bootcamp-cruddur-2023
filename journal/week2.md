@@ -41,6 +41,53 @@ pip install -r requirements.txt
 ###### Adding Attributes to a Span
 - Added attribute for honeycomb, the updated code can be seen in [`home_activities.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/services/home_activities.py) file.
 
+#### Instrumenting AWS X-Ray
+- I installed the x-ray sdk by adding `aws-xray-sdk` to my `requirements.txt` file in the backend-flask app and then running 
+```python
+pip install -r requirements.txt
+```
+within the backend directory.
+- I added to `app.py` config for aws x-ray sdk as seen in the image:
+![image]()
+###### Setting up AWS X-Ray Resources
+- I created an [`xray.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/json/xray.json) file.
+- Next, from my terminal, I ran the command to create an x-ray group:
+```sh
+aws xray create-group \
+   --group-name "Cruddur" \
+   --filter-expression "service(\"backend-service\")"
+```
+- I created a sampling rule using:
+```sh
+aws xray create-sampling-rule --cli-input-json file://aws/json/xray.json
+```
+Sampling in my AWS Management Console:
+
+##### Installing X-Ray Daemon
+- I added the config in my [`docker-compose.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/docker-compose.yml) for both the env variables and the xray daemon image from DockerHub.
+- Next, I tested using `docker compose up` then visited my backend-URL which returned data.
+
+##### Observing Data in AWS Management Console
+- Sampling:
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_SamplingInAWSPortal.png)
+- X-Ray Service Map
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_xrayServiceMap.png)
+- X-Ray Traces:
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_xrayTraces.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
