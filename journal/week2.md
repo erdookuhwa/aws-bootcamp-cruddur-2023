@@ -48,7 +48,7 @@ pip install -r requirements.txt
 ```
 within the backend directory.
 - I added to `app.py` config for aws x-ray sdk as seen in the image:
-![image]()
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_addXRaytoApp.png)
 ###### Setting up AWS X-Ray Resources
 - I created an [`xray.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/json/xray.json) file.
 - Next, from my terminal, I ran the command to create an x-ray group:
