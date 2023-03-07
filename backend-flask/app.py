@@ -21,12 +21,18 @@ from opentelemetry.instrumentation.requests import RequestsInstrumentor
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
 
 # Honeycomb Initialization ----------------
 # Initialize tracing and an exporter that can send data to Honeycomb
 provider = TracerProvider()
 processor = BatchSpanProcessor(OTLPSpanExporter())
 provider.add_span_processor(processor)
+
+# this will send logs to STDOUT
+simple_processor = SimpleSpanProcessor(ConsoleSpanExporter())
+provider.add_span_processor(simple_processor)
+
 trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
 
