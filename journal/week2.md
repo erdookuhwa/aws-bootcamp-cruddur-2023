@@ -78,17 +78,17 @@ Sampling in my AWS Management Console:
 #### Logging with CloudWatch
 - I began by installing `watchtower` which is a log handler for Amazon CloudWatch Logs. To achieve this, I simply added watchtower to my `requirements.txt` file and then ran `pip install -r requirements.txt`
 
-![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_watchtowerInstall.png)
+   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_watchtowerInstall.png)
 
 - In `app.py`, I made the necessary imports to support using watchtower. I added configuration for the logger to use CloudWatch Logs and created the log_group `cruddur` and also added logging for errors after each request.
 
-![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_cruddurLogGroup.png)
+   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_cruddurLogGroup.png)
 - In my `home_activities.py` file, I added some custom logging by importing logging and capturing a message via the `LOGGER.info("bootcamp home activities logs")` in the run function.
 
 - Next, in my `docker-compose.yml` file, I added env variables for `Region, Access_Key_ID, Secret_Access_key` and then `docker compose up` to get everything running; verified by hitting my backend URL that data was being returned.
 
 - In my AWS Management Console > CloudWatch > CloudWatch Log groups, I can see cruddur which I recently created and then drilling in, I'm able to view the log events.
-![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_loggerEvents.png)
+   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_loggerEvents.png)
 
 
 
