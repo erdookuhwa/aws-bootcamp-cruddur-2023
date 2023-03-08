@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta, timezone
 from opentelemetry import trace
+import logging
 
 tracer = trace.get_tracer("home.activities")
 
 class HomeActivities:
   def run():
+    # logger.info("bootcamp home activities logs")
     with tracer.start_as_current_span("home-activities-mock-data"):
       # Honeycomb attribute -----------------
       span = trace.get_current_span()
