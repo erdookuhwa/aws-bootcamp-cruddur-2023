@@ -90,30 +90,17 @@ Sampling in my AWS Management Console:
 - In my AWS Management Console > CloudWatch > CloudWatch Log groups, I can see cruddur which I recently created and then drilling in, I'm able to view the log events.
    ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_loggerEvents.png)
 
+#### Rollbar
+- Rollbar is great for tracking errors in app. I added blinker and rollbar to my `requirements.txt` file and then `pip install -r requirements.txt` to install the dependencies rollbar needs to run.
+- Next, I grabbed my `access token` from within my [Rollbar account](https://app.rollbar.com/onboarding) and then exported the value as `ROLLBAR_ACCESS_TOKEN` and also used the `gp env ` so the variable persists in my `GitPod` environment.
+- I added `ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"` in `docker-compose.yml` file.
+- In my `app.py` file, I imported libraries required for rollbar and added the initialization code presented in Rollbar's instruction guide for setting up the app. Finally, added a test endpoint that we can visit at the backend's URL/test.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+###### Testing within Rollbar
+- In my rollbar account, I'm now able to view the data sent to my app when I hit the rollbar/test endpoint.
+   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_viewItems.png)
+   and the detailed item view:
+   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_itemsDetailed.png)
+- I simulated an error which I was able to capture in my Rollbar account:
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week2_rollbarError.png)
+   
