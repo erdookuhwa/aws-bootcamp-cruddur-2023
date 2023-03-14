@@ -148,6 +148,32 @@ Say a user forgets their password, I updated the code in [`RecoveryPage.js`](htt
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_successfulReset.png)
 
 
+#### Homework Challenge
+Improve UI for Password Recovery Page.
+- I updated the background and color for the recovery article class in [`RecoveryPage.css`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/RecoverPage.css)
+```css
+/* --- existing css --- */
+article.recover-article .recover-wrapper {
+  background: #d59bf6;
+  width: 560px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+/* --- more css --- */
+```
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_updatedUIRecoveryPage.png)
+
+
+
+
+
+
+
+
+
+
 Still WIP 🚧 
 
 
