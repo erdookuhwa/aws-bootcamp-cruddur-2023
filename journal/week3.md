@@ -5,17 +5,18 @@
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_cognito_userpool.png)
 - In my app (GitPod env), I installed AWS Amplify using `npm install aws-amplify --save`. This was successful and added the amplify package to the [`package.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/package.json) file. 
 - Next, I configured Amplify to hook up to my already created Cognito user pool. I achieved this by updating the code in [`App.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/App.js), _see Amplify.configure code block_
-- Configuring Amplify requires use of some environment variables which I set up in my `docker-compose.yml` file.
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_awsAmplifyConfigure.png)
+- Configuring Amplify requires use of some environment variables which I set up in my [`docker-compose.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/docker-compose.yml) file.
   ```yml
   REACT_APP_AWS_PROJECT_REGION: "${AWS_DEFAULT_REGION}"
   REACT_APP_AWS_COGNITO_REGION: "${AWS_DEFAULT_REGION}"
-  REACT_APP_AWS_USER_POOLS_ID: "<your_user_pool_ID>"
-  REACT_APP_CLIENT_ID: "<your_app_client_id>"  #check under App Integration tab in your User Pool
+  REACT_APP_AWS_USER_POOLS_ID: "<my_user_pool_ID>"
+  REACT_APP_CLIENT_ID: "<my_app_client_id>"  #check under App Integration tab in your User Pool
   ```
   
 #### Display Components Based on Logged In State
-- In my `HomeFeedPage.js` file, I used [instruction's provided](https://github.com/omenking/aws-bootcamp-cruddur-2023/blob/week-3/journal/week3.md) to update the Authorization check, previously just mocked to use cookies.
-- I updated the code in [`ProfileInfo.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/components/ProfileInfo.js), Signout function to check using the authorization rather than the cookies.
+- In my `HomeFeedPage.js` file, I used [instructions](https://github.com/omenking/aws-bootcamp-cruddur-2023/blob/week-3/journal/week3.md) provided to update the Authorization check, previously just mocked to use cookies.
+- I updated the signOut function in [`ProfileInfo.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/components/ProfileInfo.js) to check using the authorization rather than the cookies.
   ```js
     import { Auth } from 'aws-amplify';
 
@@ -51,19 +52,20 @@
     return false
   }
   ```
-- Tested by hitting the frontend URL, and attempting to sign in generated an error:
+- I tested by hitting the frontend URL, and attempting to sign in generated this error:
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_signinerror.png)
   
 - To resolve, I went into my AWS Management Console and created a user in my Cognito user pool
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_cognito_user.png)
   
-- Got the verification email: 
+- After the user was created, I got the verification email with the user credentials: 
 - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_cognitoUserEmailConfirmation.png)
 - To get the Signin component working correctly, I ran this command from terminal:
 ```sh
-aws cognito-idp admin-set-user-password --username <your_username> --password <your_password> --user-pool-id <your_user_pool-id> --permanent
+aws cognito-idp admin-set-user-password --username <my_username> --password <my_password> --user-pool-id <my_user_pool-id> --permanent
+# <my_value> : I'm trying not to expose my actual account variables...
 ```
-The user is now verified!
+Back in my AWS Management Console, in the User Pool > Users, I can now see that the user is verified!
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_userVerified.png)
 
 
@@ -134,12 +136,17 @@ const onsubmit = async (event) => {
 ```
 ###### Testing
 - At the app's frontend url, I am able to sign up a new user, get the verification code, and then after user is created, I can sign in with the newly created user details. 
-- In my AWS management console, I'm able to see the user in my user pool.
+- In my AWS management console, I'm able to see the newly created user with status confirmed in my user pool.
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_userCreatedInCognito.png)
+- With no user signed in, content displayed is limited:
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_noSignedInUser.png)
+- When a user is signed in, notice how the displayed content shows other fields previously not accessible.
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_userSignedIn.png)
 
 
 ##### Password Recovery
-Say a user forgets their password, I updated the code in [`RecoveryPage.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/RecoverPage.js) file to handle it.
+Say a user forgets their password, I updated the code in [`RecoveryPage.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/RecoverPage.js) file; the `onsubmit_send_code` and `onsubmit_confirm_code` functions.
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_pwdRecoveryPage.png)
 - User recovery works as expected and I received the verification code.
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_userVerifyCodes.png)
 - I am now able to use the verification code to reset password
@@ -147,22 +154,13 @@ Say a user forgets their password, I updated the code in [`RecoveryPage.js`](htt
 - Reset was successful
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_successfulReset.png)
 
+#### JWT Token
 
 #### Homework Challenge
-Improve UI for Password Recovery Page.
-- I updated the background and color for the recovery article class in [`RecoveryPage.css`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/RecoverPage.css)
-```css
-/* --- existing css --- */
-article.recover-article .recover-wrapper {
-  background: #d59bf6;
-  width: 560px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  color: #fff;
-}
-/* --- more css --- */
-```
+##### Improve UI for Password Recovery Page.
+- I updated the _background_ and _color_ for the recovery article class in [`RecoveryPage.css`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/RecoverPage.css)
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_recoveryPageCSS.png)
+- After updating the `CSS`, this page now looks like this: ⤵️
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_updatedUIRecoveryPage.png)
 
 
