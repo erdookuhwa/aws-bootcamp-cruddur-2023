@@ -64,7 +64,7 @@
 aws cognito-idp admin-set-user-password --username <your_username> --password <your_password> --user-pool-id <your_user_pool-id> --permanent
 ```
 The user is now verified!
-  ![image]()
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_userVerified.png)
 
 
 ##### SignUp Page
@@ -135,12 +135,17 @@ const onsubmit = async (event) => {
 ###### Testing
 - At the app's frontend url, I am able to sign up a new user, get the verification code, and then after user is created, I can sign in with the newly created user details. 
 - In my AWS management console, I'm able to see the user in my user pool.
-- RESEND VERIFICATION CODE
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_userCreatedInCognito.png)
 
 
 ##### Password Recovery
 Say a user forgets their password, I updated the code in [`RecoveryPage.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/RecoverPage.js) file to handle it.
-IMAGES!!!
+- User recovery works as expected and I received the verification code.
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_userVerifyCodes.png)
+- I am now able to use the verification code to reset password
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_recoveryPage.png)
+- Reset was successful
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_successfulReset.png)
 
 
 Still WIP 🚧 
