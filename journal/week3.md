@@ -29,7 +29,7 @@
     }
   ```
 
-- I updated the `SigninPage.js` file.
+##### I updated the `SigninPage.js` file.
   ```js
   // ... existing code
   // ... removed previous onsubmit function and updated to ⬇️
@@ -59,6 +59,109 @@
   
 - Got the verification email: 
 - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_cognitoUserEmailConfirmation.png)
-  
+- To get the Signin component working correctly, I ran this command from terminal:
+```sh
+aws cognito-idp admin-set-user-password --username <your_username> --password <your_password> --user-pool-id <your_user_pool-id> --permanent
+```
+The user is now verified!
+  ![image]()
+
+
+##### SignUp Page
+After disabling then deleting the user in my User Pool, I updated the onsubmit function in [`SignupPage.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/SignupPage.js)
+```js
+// ... existing code ...
+// Add import { Auth } from 'aws-amplify'; to imports
+
+const onsubmit = async (event) => {
+    event.preventDefault();
+    setErrors('')
+    try {
+        const { user } = await Auth.signUp({
+          username: email,
+          password: password,
+          attributes: {
+              name: name,
+              email: email,
+              preferred_username: username,
+          },
+          autoSignIn: { // optional - enables auto sign in after user is confirmed
+              enabled: true,
+          }
+        });
+        console.log(user);
+        window.location.href = `/confirm?email=${email}`
+    } catch (error) {
+        console.log(error);
+        setErrors(error.message)
+    }
+    return false
+  }
+```
+##### Confirmation Page
+- I updated the `resend_code` and `onsubmit` functions after importing { Auth } from the 'aws-amplify' library. Here's a snippet of what those functions now look like.
+```js
+// --- some code ---
+const resend_code = async (event) => {
+    setErrors('')
+    try {
+      await Auth.resendSignUp(email);
+      console.log('code resent successfully');
+      setCodeSent(true)
+    } catch (err) {
+      // does not return a code
+      console.log(err)
+      if (err.message == 'Username cannot be empty'){
+        setErrors("You need to provide an email in order to send Resend Activiation Code")   
+      } else if (err.message == "Username/client id combination not found."){
+        setErrors("Email is invalid or cannot be found.")   
+      }
+    }
+  }
+
+const onsubmit = async (event) => {
+    event.preventDefault();
+    setErrors('')
+    try {
+      await Auth.confirmSignUp(email, code);
+      window.location.href = "/"
+    } catch (error) {
+      setErrors(error.message)
+    }
+    return false
+  }
+
+```
+###### Testing
+- At the app's frontend url, I am able to sign up a new user, get the verification code, and then after user is created, I can sign in with the newly created user details. 
+- In my AWS management console, I'm able to see the user in my user pool.
+- RESEND VERIFICATION CODE
+
+
+##### Password Recovery
+Say a user forgets their password, I updated the code in [`RecoveryPage.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/RecoverPage.js) file to handle it.
+IMAGES!!!
+
+
+Still WIP 🚧 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
