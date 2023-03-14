@@ -15,11 +15,12 @@ article.recover-article {
 }
 
 article.recover-article .recover-wrapper {
-  background: #202124;
+  background: #d59bf6;
   width: 560px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+  color: #fff;
 }
 article.recover-article form {
   padding: 48px;
