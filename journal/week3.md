@@ -174,9 +174,11 @@ cors = CORS(
   methods="OPTIONS,GET,HEAD,POST"
 )
 ```
-
-
-
+- I logged into the app @ the frontend URL and signed in; back in my logs, notice the debugger logging the message to confirm same:
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_jwtAuthenticated.png)
+  
+- When I log out, the debugger displays the corresponding message reflecting my logout action:
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_jwtUnauthenticated.png)
 
 
 
@@ -186,35 +188,3 @@ cors = CORS(
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_recoveryPageCSS.png)
 - After updating the `CSS`, this page now looks like this: ⤵️
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_updatedUIRecoveryPage.png)
-
-
-
-
-
-
-
-
-
-
-Still WIP 🚧 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
