@@ -154,11 +154,35 @@ Say a user forgets their password, I updated the code in [`RecoveryPage.js`](htt
 - Reset was successful
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_successfulReset.png)
 
-#### JWT Token
+#### JWT Token Verification
+- I installed `Flask-AWSCognito` by adding it to the `requirements.txt` file then running the following command in the terminal:
+```py
+pip install -r requirements.txt
+```
+- In my `docker-compose.yml` file, I added the following env vars:
+```yml
+AWS_COGNITO_USER_POOL_ID: <my_user_pool_id>
+AWS_COGNITO_USER_POOL_CLIENT_ID: <my_client_id>
+```
+- In `app.py`, I modified the code block for CORS:
+```py
+cors = CORS(
+  app, 
+  resources={r"/api/*": {"origins": origins}},
+  headers=['Content-Type', 'Authorization'], 
+  expose_headers='Authorization',
+  methods="OPTIONS,GET,HEAD,POST"
+)
+```
+
+
+
+
+
 
 #### Homework Challenge
 ##### Improve UI for Password Recovery Page.
-- I updated the _background_ and _color_ for the recovery article class in [`RecoveryPage.css`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/RecoverPage.css)
+- I updated the _background_ and _color_ for the recover-article class in [`RecoveryPage.css`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/RecoverPage.css)
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_recoveryPageCSS.png)
 - After updating the `CSS`, this page now looks like this: ⤵️
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week3_updatedUIRecoveryPage.png)
