@@ -1,5 +1,9 @@
 #! /usr/bin/bash
 
-echo "---dropping the database---"
+CYAN='\033[1;31m'
+NO_COLOR='\033[0m'
+LABEL="db-dropping-database"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
 NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<<"$CONNECTION_URL")
 psql $NO_DB_CONNECTION_URL -c "DROP DATABASE cruddur;"

@@ -1,1 +1,20 @@
 #! /usr/bin/bash
+
+CYAN='\033[1;35m'
+NO_COLOR='\033[0m'
+LABEL="db-schema-load"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+schema_path=$(realpath .)/db/schema.sql
+
+echo "Loading Schema from $schema_path"
+
+if [ "$1" = "prod" ]; then
+# with $1 when running the file, pass in an arg. e.g. Instead of running at terminal ./bin/db-schema-load, use ./bin/db-schema-load prod to test the case for prod
+    echo "Using Production... "
+    CON_URL=$PROD_CONNECTION_URL
+else
+    CON_URL=$CONNECTION_URL
+fi
+
+psql $CON_URL cruddur < $schema_path
