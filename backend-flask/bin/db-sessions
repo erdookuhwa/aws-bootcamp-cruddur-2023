@@ -1,0 +1,24 @@
+#! /usr/bin/bash
+
+CYAN='\033[1;33m'
+NO_COLOR='\033[0m'
+LABEL="db-active-sessions"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+if [ "$1" = "prod" ]; then
+# with $1 when running the file, pass in an arg. e.g. Instead of running at terminal ./bin/db-seed-load, use ./bin/db-seed-load prod to test the case for prod
+    echo "Using Production mode... "
+    URL=$PROD_CONNECTION_URL
+else
+    URL=$CONNECTION_URL
+fi
+
+NO_DB_URL=$(sed 's/\/cruddur//g' <<<"$URL")
+psql $NO_DB_URL -c "select pid as process_id, \
+       usename as user,  \
+       datname as db, \
+       client_addr, \
+       application_name as app,\
+       state \
+from pg_stat_activity;"
+
