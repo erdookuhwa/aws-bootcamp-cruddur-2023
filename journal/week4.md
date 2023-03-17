@@ -36,20 +36,22 @@
 
 #### Automating Using Bash Scripts
 - Still in my `backend-flask` directory, I created a new folder `lib` and added script files for various use cases:
-  - [`db-create`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-drop)
+  - [`db-create`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-drop) Creates a database named `cruddur`
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_dbCreatedScript.png)
     
-  - [`db-drop`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-create)
+  - [`db-drop`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-create) Drops/deletes database
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_dbDroppedScript.png)
     
-  - [`db-schema-load`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-schema-load)
+  - [`db-schema-load`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-schema-load) Loads in the schema for my database
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_dbSchemaLoadScript.png)
     
-  - [`db-connect`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-connect)
+  - [`db-connect`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-connect) Establishes a connection to my database
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_dbConnectScript.png)
     
-  - [`db-seed`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/seed.sql)
+  - [`db-seed`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/seed.sql) Loads in data into schema.
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_dbSeed.png)
+  - [`db-setup`]() Automate the process of creating database, schema, and loading data into schema.
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_dbSetup.png)
     
 - I granted executable access to the files using:
   ```sh
@@ -67,7 +69,19 @@
 - To view the active connections I have to my DB before dropping, I created a script [`db-sessions`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-sessions):
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_activeSessions.png)
 
-  
+##### Postgres Client (psycopg)
+- I installed the `psycopg` client to enable my backend communicate seamlessly with the `Postgres` DB. I achieved this by adding the libraries `psycopg[binary]` and `psycopg[pool]` to my [`requirements.txt`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/requirements.txt) file and running `pip install -r requirements.txt` in terminal. 
+- I created a file [`db.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/lib/db.py), which I specified the connection settings.
+- In my [`docker-compose.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/docker-compose.yml) file, I added the `CONNECTION_URL` variable.
+- In [`home_activities.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/services/home_activities.py), I made modifications for sql pool connection and querying.
+
+
+
+
+
+
+
+
 
 
 
