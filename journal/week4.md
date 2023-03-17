@@ -60,6 +60,13 @@
 - I created `users` and `activities` tables using the [`schema.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/schema.sql) file
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_schemasql.png)
 - I also populated mock data into the created tables from the [`seed.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/seed.sql).
+- I am able to query for and view data in my `cruddur` database:
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_selectActivities.png)
+
+##### Check Active Connections
+- To view the active connections I have to my DB before dropping, I created a script [`db-sessions`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db-sessions):
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_activeSessions.png)
+
   
 
 
