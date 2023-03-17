@@ -50,8 +50,8 @@ from flask import got_request_exception
 # LOGGER.addHandler(cw_handler)
 # LOGGER.info("bootcamp home activities logs")
 
-xray_url = os.getenv("AWS_XRAY_URL")
-xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
+# xray_url = os.getenv("AWS_XRAY_URL")
+# xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
 
 # Honeycomb Initialization ----------------
 # Initialize tracing and an exporter that can send data to Honeycomb
@@ -76,7 +76,7 @@ cognito_jwt_token = CognitoJwtToken(
 )
 
 # X-Ray --------------------
-XRayMiddleware(app, xray_recorder)
+# XRayMiddleware(app, xray_recorder)
 # Honeycomb Initialization continued ----------------
 # Initialize automatic instrumentation with Flask
 FlaskInstrumentor().instrument_app(app)
