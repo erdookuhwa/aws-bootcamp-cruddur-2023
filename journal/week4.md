@@ -84,11 +84,11 @@
 - Since GitPod workspace is a dynamic environment, the `GITPOD_IP` value keeps changing so I created the [`rds-update-sg-rule`]() script which successfully updates my RDS Security Group Inbound Rule with my new GitPod IP address.
 - I got my Security Group and Security Group Rule IDs from my AWS Management Console and created env vars.
   ```sh
-  export DB_SG_ID="sg-0ff066e1dd6e70069"
-  gp env DB_SG_ID="sg-0ff066e1dd6e70069"
+  export DB_SG_ID=<my_sg_id>
+  gp env DB_SG_ID=<my_sg_id>
 
-  export DB_SG_RULE_ID="sgr-000bfba8baacb2cab"
-  gp env DB_SG_RULE_ID="sgr-000bfba8baacb2cab"
+  export DB_SG_RULE_ID=<my_sgr_id>
+  gp env DB_SG_RULE_ID=<my_sgr_id>
   ```
 
 ###### Persisting SG Rule on GitPod Workspace Launch
@@ -108,6 +108,43 @@ I connected to my instance by adding the `prod` argument when I calling the `db-
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_sc200.png)
 - Identified error in my code on rollbar which I was able to rectify
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_rollbarError.png)
+
+
+#### Cognito User Authentication Lambda
+When a user signs up, we'd like to do a post confirmation lambda.
+- In my AWS Management Console, I created a Lambda function ([`cruddur-post-confirmation`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/lambdas/cruddur-post-confirmation.py)). In the function tab.
+- I added an the env var for CONNECTION_URL in the lambda since this is referenced in my lambda function.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_lambdaEnvVar.png)
+- I added a lambda Layer to my function and specified the `ARN`; I used the ARN and Python version specific to my use case as provided in JetBridge's [`Readme for the psycopg2-lambda-layer`](https://github.com/jetbridge/psycopg2-lambda-layer#psycopg2-lambda-layer)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_addLambdaARN.png)
+- In my Cognito User Pool > User Pool Properties, I added a lambda trigger
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_addLambdaTrigger.png)
+- I added a policy to my lambda execution role already created at the time the function was created.
+  ```json
+  {
+      "Version": "2012-10-17",
+      "Statement": [{
+          "Effect": "Allow",
+          "Action": [
+              "ec2:CreateNetworkInterface",
+              "ec2:DeleteNetworkInterface",
+              "ec2:DescribeNetworkInterfaces"
+              ],
+              "Resource": "*"
+      }]
+  }
+  ```
+  - My lambda function now has 2 policies attached.
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_lambdaPolicyAttached.png)
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_lambdaPolicyInFunction.png)
+- I added a VPC to my lambda fxn
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_lambdaVPC.png)
+
+**Testing**
+- I loaded the new [`schema`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/schema.sql) (which now has an `email` field) into my prod DB
+- Then signed up and confirmed my user which shows up in Cognito.
+- From my GitPod terminal, I connected to my prod db, and confirmed that my data was inputted into the `users` table.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_usersInputtedProd.png)
 
 
 
