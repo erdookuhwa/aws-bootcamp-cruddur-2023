@@ -5,4 +5,12 @@ NO_COLOR='\033[0m'
 LABEL="db-establishing-connection"
 printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 
-psql $CONNECTION_URL
+if [ "$1" = "prod" ]; then
+# with $1 when running the file, pass in an arg. e.g. Instead of running at terminal ./bin/db-seed-load, use ./bin/db-seed-load prod to test the case for prod
+    echo "Establishing Prod connection... "
+    URL=$PROD_CONNECTION_URL
+else
+    URL=$CONNECTION_URL
+fi
+
+psql $URL
