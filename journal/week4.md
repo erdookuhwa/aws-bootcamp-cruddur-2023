@@ -106,6 +106,8 @@
 I connected to my instance by adding the `prod` argument when I calling the `db-connect` script. I loaded the schema using the `db-schema-load` file and got a `200` confirming it was successful.
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_schemaLoadProd.png)
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_sc200.png)
+- Identified error in my code on rollbar which I was able to rectify
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_rollbarError.png)
 
 
 
