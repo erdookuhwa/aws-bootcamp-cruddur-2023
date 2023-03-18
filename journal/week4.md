@@ -75,6 +75,37 @@
 - In my [`docker-compose.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/docker-compose.yml) file, I added the `CONNECTION_URL` variable.
 - In [`home_activities.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/services/home_activities.py), I made modifications for sql pool connection and querying.
 
+#### Connecting to my RDS instance
+- In the SG of my RDS instance, I added an inbound rule to permit my `GitPod IP` to establish a connection with the RDS instance. I achieved this by creating an env var of my GitPod IP by running `export GITPOD_IP=$(curl ifconfig.me)`.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_rdsSG.png)
+  - I used the command `psql $PROD_CONNECTION_URL` from terminal to establish the connection.
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_psqlProd.png)
+##### Script for Updating GitPod's IP
+- Since GitPod workspace is a dynamic environment, the `GITPOD_IP` value keeps changing so I created the [`rds-update-sg-rule`]() script which successfully updates my RDS Security Group Inbound Rule with my new GitPod IP address.
+- I got my Security Group and Security Group Rule IDs from my AWS Management Console and created env vars.
+  ```sh
+  export DB_SG_ID="sg-0ff066e1dd6e70069"
+  gp env DB_SG_ID="sg-0ff066e1dd6e70069"
+
+  export DB_SG_RULE_ID="sgr-000bfba8baacb2cab"
+  gp env DB_SG_RULE_ID="sgr-000bfba8baacb2cab"
+  ```
+
+###### Persisting SG Rule on GitPod Workspace Launch
+- To persist my SG rule & GitPod IP update whenever I launch a new GitPod workspace, I updated my [`gitpod.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/.gitpod.yml) file by adding these lines:
+  ```yml
+      command: |
+      export GITPOD_IP=$(curl ifconfig.me)
+      source "THEIA_WORKSPACE_ROOT/backend-flask/bin/rds-update-sg-rule"
+  ```
+- Restarted my GitPod workspace to test and on launch, the script executes successfully. I verified the new IP was reflected in my Security Group.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_scriptOnLaunch.png)
+
+
+##### Testing Connection to RDS Instance 
+I connected to my instance by adding the `prod` argument when I calling the `db-connect` script. I loaded the schema using the `db-schema-load` file and got a `200` confirming it was successful.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_schemaLoadProd.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_sc200.png)
 
 
 
