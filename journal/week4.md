@@ -147,8 +147,10 @@ When a user signs up, we'd like to do a post confirmation lambda.
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_usersInputtedProd.png)
 
 
+#### Creating Activities
+When a user posts a "crud", we'll like this activity to be pushed to the activities table in our database. To achieve this, I made some changes to my [`home_activities.py`]() and [`create_activity.py`]() files.
 
-
+.....
 
 
 
