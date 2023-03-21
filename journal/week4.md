@@ -81,7 +81,7 @@
   - I used the command `psql $PROD_CONNECTION_URL` from terminal to establish the connection.
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_psqlProd.png)
 ##### Script for Updating GitPod's IP
-- Since GitPod workspace is a dynamic environment, the `GITPOD_IP` value keeps changing so I created the [`rds-update-sg-rule`]() script which successfully updates my RDS Security Group Inbound Rule with my new GitPod IP address.
+- Since GitPod workspace is a dynamic environment, the `GITPOD_IP` value keeps changing so I created the [`rds-update-sg-rule`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/rds-update-sg-rule) script which successfully updates my RDS Security Group Inbound Rule with my new GitPod IP address.
 - I got my Security Group and Security Group Rule IDs from my AWS Management Console and created env vars.
   ```sh
   export DB_SG_ID=<my_sg_id>
