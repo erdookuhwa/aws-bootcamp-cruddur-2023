@@ -148,18 +148,19 @@ When a user signs up, we'd like to do a post confirmation lambda.
 
 
 #### Creating Activities
-When a user posts a "crud", we'll like this activity to be pushed to the activities table in our database. To achieve this, I made some changes to my [`home_activities.py`]() and [`create_activity.py`]() files.
+When a user posts a "crud", we'll like this activity to be pushed to the `activities` table in our database. To achieve this, I made some changes to my:
+- [`home_activities.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/services/home_activities.py) basically queries and displays the results from the [`home.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/sql/activities/home.sql) file
+- [`create_activity.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/services/create_activity.py) runs the query from the [`create.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/sql/activities/create.sql) file and then using the [`object.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/sql/activities/object.sql) template to display activity object
+- [`seed.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/seed.sql) file; initially manually inserting my user into the db so I can then make manipulations with this user. _For an activity to be posted, I require a `user_uuid` hence this tweak._
+- Also, refactored and created new `sql` files to handle specific `sql` manipulations:
+  - [`create.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/sql/activities/create.sql) handling the action of inserting an activity into the `activities table`
+  - [`home.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/sql/activities/home.sql) which makes a selection of all activities in relation to the user querying them hence the `JOIN` on `users table` on `user_uuid`
+  - [`object.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/sql/activities/object.sql) which selects activities where activities and users `uuid` match
+- On the frontend in [`HomePageFeed.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/HomeFeedPage.js) passing the `user_handle` as a prop to the `ActivityForm` component.
+- Also on the frontend, in the [`ActivityForm.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/components/ActivityForm.js) component, within the `onsubmit` function, modified the JSON data being received in the body to receive the `user_handle`
 
-.....
-
-
-
-
-
-
-
-
-
-
-
-🚧 WIP 🚧
+##### Testing Creating Activities
+- Logging into my app @ the frontend URL, I was able to successfully post a crud:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_activitiesPosted.png)
+- From within my terminal, I established a connection to my prod DB and when I queried my `activities` table, I was able to view my posts:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week4_createdActivitiesInRDSDB.png)
