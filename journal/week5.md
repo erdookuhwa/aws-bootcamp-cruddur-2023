@@ -4,7 +4,7 @@ I started off by installing `boto3`, an AWS SDK for Python used to interact with
 ```py
 pip install -r requirements.txt
 ```
-##### Bash Scripts
+##### Scripts
 - I did some cleanup/restructuring for my previous bash scripts using `psql`
   - They all now be found in [`db folder`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/tree/main/backend-flask/bin/db)
     - Also, updated the paths in my [`setup`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db/setup) script to reflect same
@@ -14,9 +14,14 @@ pip install -r requirements.txt
     - [`list-tables`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/list-tables): after loading my schema, I wrote a script to list my tables
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_listTables.png)
   - [`seed`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/seed): add items to ddb table
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_seedDDBTable.png)
   - [`drop`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/drop): successfully deletes a ddb table when you provide the file name
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_droppingDDBTable.png)
+  - [`scan`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/scan): to scan (_return all items in table_) the ddb table
+  - [`get-conversations`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/patterns/get-conversations): will show user's conversations
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_getConversations.png)
 
+  ###### Patterns
 
 
 
