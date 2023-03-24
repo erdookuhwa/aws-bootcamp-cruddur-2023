@@ -9,9 +9,13 @@ pip install -r requirements.txt
   - They all now be found in [`db folder`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/tree/main/backend-flask/bin/db)
     - Also, updated the paths in my [`setup`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db/setup) script to reflect same
 - I also created scripts for manipulating DynamoDB (DDB) and granted them executable access (`chmod u+x <name_of_file>`):
-  - [`schema-load`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/schema-load)
-  - [`seed`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/seed)
-  - [`drop`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/drop)
+  - [`schema-load`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/schema-load): this creates a table in my `dynamodb-local db`
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_schemaCreateTableDDBLocal.png)
+    - [`list-tables`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/list-tables): after loading my schema, I wrote a script to list my tables
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_listTables.png)
+  - [`seed`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/seed): add items to ddb table
+  - [`drop`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/drop): successfully deletes a ddb table when you provide the file name
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_droppingDDBTable.png)
 
 
 
