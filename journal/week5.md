@@ -20,6 +20,9 @@ pip install -r requirements.txt
   - [`scan`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/scan): to scan (_return all items in table_) the ddb table
   - [`get-conversations`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/patterns/get-conversations): will show user's conversations
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_getConversations.png)
+  - [`list-conversations`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/patterns/list-conversations): shows user's conversation
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_listConversations.png)
+  - 
 
   ###### Patterns
 
