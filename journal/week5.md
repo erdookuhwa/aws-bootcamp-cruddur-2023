@@ -24,7 +24,9 @@ pip install -r requirements.txt
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_listConversations.png)
   - 
 
-  ###### Patterns
+  #### Patterns
+  ###### Pattern A _List all messages in Message Group_
+  - I started off by creating a [`ddb.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/lib/ddb.py) object.
 
 
 
