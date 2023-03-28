@@ -28,12 +28,22 @@ pip install -r requirements.txt
   ###### Pattern A _List all messages in Message Group_
   - I started off by creating a [`ddb.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/lib/ddb.py) object.
   - [`list_users`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/cognito/list-users): this script lists the users in my Cognito User Pool rather than hardcoding the users. 
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_cognitoListUsers.png)
     - I exported my user_pool_id as an environment variable and updated my [`docker-compose.yml`]() to pick up the value from the env var.
     ```sh
     export AWS_COGNITO_USER_POOL_ID <my_cognito_user_pool_id>
     gp env AWS_COGNITO_USER_POOL_ID <my_cognito_user_pool_id>
     ```
-    
+- Now that I can list my users, this script [`update-cognito-user-ids`]() updates the cognito_user_id field in the db.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_updateCognitoUUIDs.png)
+  - I also updated the [`setup`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db/setup) script so that after table is seeded, the cognito_user_id is updated from the `MOCK` value to the actual user's uuid.
+- A temp fix for the token error causing the app not to display any messages is due to the message token. I added the this line for the header to the [`MessageGroupsPage.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/MessageGroupsPage.js), [`MessageGroupPage.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/MessageGroupPage.js), and the [`MessageForm.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/components/MessageForm.js)
+```js
+headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`
+        }
+```
+- [`uuid_from_cognito_user_id`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/sql/users/uuid_from_cognito_user_id.sql) a sql that gets the `uuid` of the cognito user.
 
 
 
