@@ -27,6 +27,21 @@ pip install -r requirements.txt
   #### Patterns
   ###### Pattern A _List all messages in Message Group_
   - I started off by creating a [`ddb.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/lib/ddb.py) object.
+  - [`list_users`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/cognito/list-users): this script lists the users in my Cognito User Pool rather than hardcoding the users. 
+    - I exported my user_pool_id as an environment variable and updated my [`docker-compose.yml`]() to pick up the value from the env var.
+    ```sh
+    export AWS_COGNITO_USER_POOL_ID <my_cognito_user_pool_id>
+    gp env AWS_COGNITO_USER_POOL_ID <my_cognito_user_pool_id>
+    ```
+    
+
+
+
+
+
+
+
+
 
 
 
