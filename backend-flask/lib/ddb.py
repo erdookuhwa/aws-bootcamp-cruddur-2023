@@ -24,9 +24,9 @@ def list_message_groups(client,my_user_uuid):
     'ScanIndexForward': False,
     'Limit': 20,
     'ExpressionAttributeValues': {
-    ':year': {'S': str(current_year) },
-    ':pk': {'S': f"GRP#{my_user_uuid}"}
-    }
+      # ':year': {'S': str(current_year) },
+      ':pk': {'S': f"GRP#{my_user_uuid}"}
+      }
     }
     print('query-params')
     print(query_params)

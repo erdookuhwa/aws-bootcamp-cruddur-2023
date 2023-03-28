@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+
 class MessageGroups:
   def run(user_handle):
     model = {
@@ -19,6 +20,7 @@ class MessageGroups:
         'display_name': 'Worf',
         'handle':  'worf',
         'created_at': now.isoformat()
-    }]
+      }
+    ]
     model['data'] = results
     return model
