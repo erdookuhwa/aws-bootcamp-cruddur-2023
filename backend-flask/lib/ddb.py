@@ -20,7 +20,7 @@ def list_message_groups(client,my_user_uuid):
     table_name = 'cruddur-messages'
     query_params = {
     'TableName': table_name,
-    'KeyConditionExpression': 'pk = :pk AND begins_with(sk,:year)',
+    'KeyConditionExpression': 'pk = :pk',
     'ScanIndexForward': False,
     'Limit': 20,
     'ExpressionAttributeValues': {
