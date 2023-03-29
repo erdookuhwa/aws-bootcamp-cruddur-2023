@@ -15,16 +15,16 @@ class Ddb:
     ddb = boto3.client('dynamodb',**attrs)
     return ddb  
 
-def list_message_groups(client,my_user_uuid):
+def list_message_groups(client, my_user_uuid):
     current_year = datetime.now().year
     table_name = 'cruddur-messages'
     query_params = {
     'TableName': table_name,
-    'KeyConditionExpression': 'pk = :pk',
+    'KeyConditionExpression': 'pk = :pk AND sk BETWEEN :start_date AND :end_date',
     'ScanIndexForward': False,
     'Limit': 20,
     'ExpressionAttributeValues': {
-      # ':year': {'S': str(current_year) },
+      ':year': {'S': str(current_year) },
       ':pk': {'S': f"GRP#{my_user_uuid}"}
       }
     }

@@ -28,12 +28,12 @@ class Db:
     connection_url = os.getenv("CONNECTION_URL")
     self.pool = ConnectionPool(connection_url)
 
-  # def print_params(self,params):
-  #   blue = '\033[94m'
-  #   no_color = '\033[0m'
-  #   print(f'{blue} SQL Params: {no_color}')
-  #   for key, value in params.items():
-  #     print(key, ":", value)
+  def print_params(self,params):
+    blue = '\033[94m'
+    no_color = '\033[0m'
+    print(f'{blue} SQL Params: {no_color}')
+    for key, value in params.items():
+      print(key, ":", value)
 
   def print_sql(self, title, sql, params={}):
     cyan = '\033[96m'
@@ -71,7 +71,7 @@ class Db:
 
   def query_object_json(self,sql,params={}):
     self.print_sql('json', sql, params)
-    # self.print_params(params)
+    self.print_params(params)
     wrapped_sql = self.query_wrap_object(sql)
 
     with self.pool.connection() as conn:
@@ -118,7 +118,7 @@ class Db:
     print("psycopg traceback:", traceback, "-- type:", err_type)
 
     # print the pgcode & pgerror exceptions
-    # print("pgerror:", err.pgerror)
-    # print("pgcode:", err.pgcode, "\n")
+    print("pgerror:", err.pgerror)
+    print("pgcode:", err.pgcode, "\n")
 
 db = Db()

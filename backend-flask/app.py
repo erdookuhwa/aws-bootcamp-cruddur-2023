@@ -141,7 +141,6 @@ def data_message_groups():
     # unauthenticated request
     app.logger.debug(e)
     return {}, 401
-  return data, 200
 
 
 @app.route("/api/messages/@<string:handle>", methods=['GET'])
