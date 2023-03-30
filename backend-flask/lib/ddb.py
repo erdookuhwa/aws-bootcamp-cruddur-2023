@@ -16,7 +16,7 @@ class Ddb:
     return ddb  
 
   def list_message_groups(client, my_user_uuid):
-      current_year = datetime.now().year
+      current_year = str(datetime.now().year)
       table_name = 'cruddur-messages'
       query_params = {
       'TableName': table_name,
@@ -24,14 +24,11 @@ class Ddb:
       'ScanIndexForward': False,
       'Limit': 20,
       'ExpressionAttributeValues': {
-        ':year': {'S': str(current_year) },
+        ':year': {'S': current_year },
         ':pk': {'S': f"GRP#{my_user_uuid}"}
         }
       }
-      print('query-params')
-      print(query_params)
-      print('client')
-      print(client)
+      print('query-params: ', query_params)
 
       # query the table
       response = client.query(**query_params)
@@ -50,7 +47,7 @@ class Ddb:
       return results
 
   def list_messages(client, message_group_uuid):
-    current_year = datetime.now().year
+    current_year = str(datetime.now().year)
     table_name = 'cruddur-messages'
     query_params = {
       'TableName': table_name,
@@ -58,7 +55,7 @@ class Ddb:
       'ScanIndexForward': False,
       'Limit': 20,
       'ExpressionAttributeValues': {
-        ':year': {'S': str(current_year) },
+        ':year': {'S': current_year },
         ':pk': {'S': f"MSG#{message_group_uuid}"}
       }
     }
