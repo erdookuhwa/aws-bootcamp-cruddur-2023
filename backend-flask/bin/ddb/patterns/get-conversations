@@ -16,7 +16,7 @@ if len(sys.argv) == 2:
 ddb = boto3.client('dynamodb',**attrs)
 table_name = 'cruddur-messages'
 
-message_group_uuid = "5ae290ed-55d1-47a0-bcd-fe2bc2700399"
+message_group_uuid = "5ae290ed-55d1-47a0-bc6d-fe2bc2700399"
 
 # define the query parameters
 query_params = {
@@ -44,9 +44,9 @@ print(json.dumps(response, sort_keys=True, indent=2))
 print(json.dumps(response['ConsumedCapacity'], sort_keys=True, indent=2))
 
 items = response['Items']
-reverse_items = items[::-1]     #reversing so convo shows the latest message first
+items.reverse()   #reversing so convo shows the latest message first
 
-for item in reverse_items:
+for item in items:
   sender_handle = item['user_handle']['S']
   message       = item['message']['S']
   timestamp     = item['sk']['S']
