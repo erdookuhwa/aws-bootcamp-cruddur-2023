@@ -11,7 +11,7 @@ import MessageGroupPage from './pages/MessageGroupPage';
 import MessageGroupNewPage from './pages/MessageGroupNewPage';
 import ConfirmationPage from './pages/ConfirmationPage';
 import React from 'react';
-import process from 'process';
+
 import {
   createBrowserRouter,
   RouterProvider
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
     element: <MessageGroupsPage />
   },
   {
-    path: "/messages/new:handle",
+    path: "/messages/new/:handle",
     element: <MessageGroupNewPage />
   },
   {
