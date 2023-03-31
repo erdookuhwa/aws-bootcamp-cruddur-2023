@@ -1,4 +1,3 @@
-
 import './MessageGroupPage.css';
 import React from "react";
 import { useParams } from 'react-router-dom';
@@ -26,7 +25,7 @@ export default function MessageGroupPage() {
       });
       let resJson = await res.json();
       if (res.status === 200) {
-        console.log('other user:',resJson)
+        console.log('other user:', resJson)
         setOtherUser(resJson)
       } else {
         console.log(res)

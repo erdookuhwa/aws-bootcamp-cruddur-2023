@@ -31,7 +31,7 @@ class CreateMessage:
     if model['errors']:
       # return what we provided
       model['data'] = {
-        'display_name': 'Andrew Brown',
+        'display_name': 'Everly Grandest',
         'handle':  user_sender_handle,
         'message': message
       }
@@ -42,20 +42,17 @@ class CreateMessage:
         rev_handle = ''
       else:
         rev_handle = user_receiver_handle
-      users = db.query_array_json(sql,{
+      users = db.query_array_json(sql, {
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': rev_handle
       })
-      print("USERS =-=-=-=-==")
-      print(users)
+      print("USERS <=-=-=-=-==> ", users)
 
       my_user    = next((item for item in users if item["kind"] == 'sender'), None)
       other_user = next((item for item in users if item["kind"] == 'recv')  , None)
 
-      print("USERS=[my-user]==")
-      print(my_user)
-      print("USERS=[other-user]==")
-      print(other_user)
+      print("USERS = [my-user] ==> ", my_user)
+      print("USERS = [other-user] ==> ", other_user)
 
       ddb = Ddb.client()
 
