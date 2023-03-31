@@ -74,7 +74,7 @@ class Ddb:
         'message': item['message']['S'],
         'created_at': created_at
       })
-    print(results)
+    print('===>>>> results: ', results)
     return results
 
   def create_message(client,message_group_uuid, message, my_user_uuid, my_user_display_name, my_user_handle):
