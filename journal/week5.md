@@ -47,7 +47,28 @@ headers: {
 
 
 
-
+#### DynamoDB Stream
+- I created a table in my AWS account from terminal in `GitPod` by running the command to load the ddb schema to prod:
+  ```sh
+  ./bin/ddb/schema-load prod
+  ```
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_createDDBTableProd.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_ddbTableCreatingAWS.png)
+- I enabled DynamoDB Streams with the _New Image_ attribute
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_enableDDBStream.png)
+- Then I created a VPC Endpoint, permitted the DynamoDB service with Full Access in the same region & VPC as my DDB table.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_vpcEndpoint.png)
+- I granted `Query, PutItem, DeleteItem` access for DynamoDB and the `AWSLambdaInvocation-DynamoDB` access to my lambda function.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_lambdaPermissions.png)
+- I created the lambda function [`cruddur-messaging-stream.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/lambdas/cruddur-messaging-stream.py) to trigger a stream and enabled VPC.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_lambdaFunction.png)
+- On my DDB table, I added a lambda trigger
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_lambdaTrigger.png)
+###### Testing
+I commented the AWS_ENDPOINT_URL in my [`docker-compose.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/docker-compose.yml) file so that it can use the VPC Endpoint I created. After importing my data (loading the schema), at my frontend url's `/new/janedoe`, I was able to successfully post a message.
+- ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_postJaneDoe.png)
+- In my AWS account, I confirmed by checking the Monitor tab of my Lambda function then viewed the CloudWatch logs and the event was triggered
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_ddbStreamLogs.png)
 
 
 
