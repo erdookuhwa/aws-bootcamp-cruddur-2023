@@ -22,10 +22,13 @@ pip install -r requirements.txt
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_getConversations.png)
   - [`list-conversations`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/ddb/patterns/list-conversations): shows user's conversation
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_listConversations.png)
-  - 
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_listMsgs.png)
+- [`update-cognito-user-ids`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/db/update_cognito_user_ids): uses the AWS SDK, boto3 to interact with Cognito and obtains the user's `UUID` then updates the user's table with that info.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_updateCognitoUUIDs.png)
+
 
   #### Patterns
-  ###### Pattern A _List all messages in Message Group_
+  ###### _List all messages in Message Group_
   - I started off by creating a [`ddb.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/lib/ddb.py) object.
   - [`list_users`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/bin/cognito/list-users): this script lists the users in my Cognito User Pool rather than hardcoding the users. 
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_cognitoListUsers.png)
@@ -44,7 +47,14 @@ headers: {
         }
 ```
 - [`uuid_from_cognito_user_id`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/sql/users/uuid_from_cognito_user_id.sql) a sql that gets the `uuid` of the cognito user.
-
+ ###### _Listing Messages Group into App_
+ - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_listMessagesGrp.png)
+ 
+  ###### _Creating New Message_
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_postMsgNewGrp.png)
+  
+   ###### _Creating Message for an Existing Message Group_
+   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_createMsgExistingGrp.png)
 
 
 #### DynamoDB Stream
@@ -71,23 +81,3 @@ I commented the AWS_ENDPOINT_URL in my [`docker-compose.yml`](https://github.com
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week5_ddbStreamLogs.png)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-💻 Under Construction... 🚧
