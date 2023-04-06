@@ -83,13 +83,36 @@ aws ecs create-cluster \
     ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_backendImg.png)
   
 #### Creating Task Definition in ECS
-- I created the [`service-execution-policy.json`]() policy which grants AWS Systems Manager `ssm:GetParameters` & `ssm:GetParameter` access to the `backend-flask` resource.
+- I began by storing the parameters in _Parameter Store_ in the terminal like so:
+  ```sh
+  aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/AWS_ACCESS_KEY_ID" --value $AWS_ACCESS_KEY_ID
+  aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/AWS_SECRET_ACCESS_KEY" --value $AWS_SECRET_ACCESS_KEY
+  aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/CONNECTION_URL" --value $PROD_CONNECTION_URL
+  aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/ROLLBAR_ACCESS_TOKEN" --value $ROLLBAR_ACCESS_TOKEN
+  aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/OTEL_EXPORTER_OTLP_HEADERS" --value "x-honeycomb-team=$HONEYCOMB_API_KEY"
+  ```
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_ParameterStore.png)
+- I created the [`service-execution-policy.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/policies/service-execution-policy.json) policy which grants AWS Systems Manager `ssm:GetParameters` & `ssm:GetParameter` access to the `backend-flask` resource.
 - I created the Execution Role using: 
   ```sh
   aws iam create-role \
     --role-name CruddurServiceExecutionRole \
-    --assume-role-policy-document file://aws/policies/service-execution-policy.json
+    --assume-role-policy-document "file://aws/policies/service-assume-role-execution-policy.json"
   ```
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_CruddurServiceExecutionRole.png)
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_CruddurServiceExecutionPolicy.png)
+- And then the IAM Policy, by running the command:
+  ```sh
+  aws iam put-role-policy \
+    --policy-name CruddurServiceExecutionPolicy \
+    --role-name CruddurServiceExecutionRole \
+    --policy-document "file://aws/policies/service-execution-policy.json"
+  ```
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_createIAMRole.png)
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_CruddurServiceExecutionRoleInAWS.png)
+- I created a TaskRole as specified in [Andrew Brown's instructions](https://github.com/omenking/aws-bootcamp-cruddur-2023/blob/week-6-fargate/journal/week6.md#create-taskrole)
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_cruddurCreateTask.png)
+
 
 
 
