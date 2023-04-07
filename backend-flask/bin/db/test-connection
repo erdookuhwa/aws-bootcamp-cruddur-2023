@@ -4,7 +4,7 @@ import psycopg
 import os
 import sys
 
-connection_url = os.getenv("PROD_CONNECTION_URL") #use PROD_CONNECTION_URL to connect to the prod db
+connection_url = os.getenv("CONNECTION_URL") #use PROD_CONNECTION_URL to connect to the prod db
 
 conn = None
 try:
