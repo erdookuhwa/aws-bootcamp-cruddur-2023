@@ -188,6 +188,7 @@ aws ecs create-cluster \
       --interactive
     ```
   
+  
 #### Persisting Changes to my Environment
 - I updated my [`gitpod.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/.gitpod.yml) to auto-install Session Manager Plugin whenever the workspace is launched. 
 
@@ -196,9 +197,14 @@ aws ecs create-cluster \
  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_ecsSG.png)
  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_ECSENIs.png)
  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_healthCheckfromECS.png)
-
  
- 
+#### Accessing My RDS Instance
+- To access my RDS instance, I updated the `inbound rules` of my Security Group to point to the `crud-srv-sg` 
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_updateSG.png)
+  
+#### Creating a Port Mapping Alias:
+- I updated my [`service-backend-flask.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/json/service-backend-flask.json) to include the _Service Configuration_ for the port mapping. i.e. instead of backend data being accessible over port 80, it should be accessible via port 4567. Then ran the `aws ecs create-service --cli-input-json "file://aws/json/service-backend-flask.json"` cmd to create the service with the updated configuration.
+- 
  
  
 
