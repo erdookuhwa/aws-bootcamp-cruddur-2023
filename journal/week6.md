@@ -92,7 +92,7 @@ aws ecs create-cluster \
   aws ssm put-parameter --type "SecureString" --name "/cruddur/backend-flask/OTEL_EXPORTER_OTLP_HEADERS" --value "x-honeycomb-team=$HONEYCOMB_API_KEY"
   ```
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_ParameterStore.png)
-- I created the [`service-execution-policy.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/policies/service-execution-policy.json) policy which grants AWS Systems Manager `ssm:GetParameters` & `ssm:GetParameter` access to the `backend-flask` resource.
+- I created the [`service-execution-policy.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/policies/service-execution-policy.json) policy which grants AWS Systems Manager `ssm:GetParameters` & `ssm:GetParameter` access & the `GetAuthorizationToken` access to ECR on the `backend-flask` resource.
 - I created the Execution Role using: 
   ```sh
   aws iam create-role \
@@ -112,8 +112,39 @@ aws ecs create-cluster \
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_CruddurServiceExecutionRoleInAWS.png)
 - I created a TaskRole as specified in [Andrew Brown's instructions](https://github.com/omenking/aws-bootcamp-cruddur-2023/blob/week-6-fargate/journal/week6.md#create-taskrole)
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_cruddurCreateTask.png)
-
-
+- Installed _Session Manager Plugin_ on Ubuntu using instructions from [here](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html):
+  ```sh
+  curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb" \
+  sudo dpkg -i session-manager-plugin.deb
+  ```
+  - Tested it was correctly installed using: `session-manager-plugin`
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_seshMgrPlugin.png)
+- To get the `default VPC ID`, I used:
+  ```sh
+  export DEFAULT_VPC_ID=$(aws ec2 describe-vpcs \
+  --filters "Name=isDefault, Values=true" \
+  --query "Vpcs[0].VpcId" \
+  --output text)
+  echo $DEFAULT_VPC_ID
+  ```
+- Then I created a _Security Group_ for the ECS Cluster
+  ```sh
+  export CRUD_CLUSTER_SG=$(aws ec2 create-security-group \
+  --group-name cruddur-ecs-cluster-sg \
+  --description "Security group for Cruddur ECS ECS cluster" \
+  --vpc-id $DEFAULT_VPC_ID \
+  --query "GroupId" --output text)
+  echo $CRUD_CLUSTER_SG
+```
+- This next script gets the `subnet ids` of the default VPC:
+  ```sh
+  export DEFAULT_SUBNET_IDS=$(aws ec2 describe-subnets  \
+   --filters Name=vpc-id,Values=$DEFAULT_VPC_ID \
+   --query 'Subnets[*].SubnetId' \
+   --output json | jq -r 'join(",")')
+  echo $DEFAULT_SUBNET_IDS
+  ```
+ 
 
 
 
