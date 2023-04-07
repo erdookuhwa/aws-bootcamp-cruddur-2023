@@ -173,12 +173,16 @@ aws ecs create-cluster \
       --port 80 \
       --cidr 0.0.0.0/0
     ```
+  - I ran the command to create a service:
+    ```sh
+    aws ecs create-service --cli-input-json "file://aws/json/service-backend-flask.json"
+    ```
   - Connecting to the Container
     ```sh
     aws ecs execute-command  \
       --region $AWS_DEFAULT_REGION \
       --cluster cruddur \
-      --task 2d9f49341de0446593e3427fad73eca7 \
+      --task 7dd70843535f45f4b409f90a78602ca3 \
       --container backend-flask \
       --command "/bin/bash" \
       --interactive
