@@ -119,23 +119,16 @@ aws ecs create-cluster \
   ```
   - Tested it was correctly installed using: `session-manager-plugin`
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_seshMgrPlugin.png)
-- To get the `default VPC ID`, I used:
-  ```sh
-  export DEFAULT_VPC_ID=$(aws ec2 describe-vpcs \
-  --filters "Name=isDefault, Values=true" \
-  --query "Vpcs[0].VpcId" \
-  --output text)
-  echo $DEFAULT_VPC_ID
-  ```
+
 - Then I created a _Security Group_ for the ECS Cluster
   ```sh
   export CRUD_CLUSTER_SG=$(aws ec2 create-security-group \
-  --group-name cruddur-ecs-cluster-sg \
-  --description "Security group for Cruddur ECS ECS cluster" \
-  --vpc-id $DEFAULT_VPC_ID \
-  --query "GroupId" --output text)
+    --group-name cruddur-ecs-cluster-sg \
+    --description "Security group for Cruddur ECS ECS cluster" \
+    --vpc-id $DEFAULT_VPC_ID \
+    --query "GroupId" --output text)
   echo $CRUD_CLUSTER_SG
-```
+  ```
 - This next script gets the `subnet ids` of the default VPC:
   ```sh
   export DEFAULT_SUBNET_IDS=$(aws ec2 describe-subnets  \
@@ -144,7 +137,67 @@ aws ecs create-cluster \
    --output json | jq -r 'join(",")')
   echo $DEFAULT_SUBNET_IDS
   ```
+
+#### Register Task Defintion
+- I created a Service in the ECS Cluster from AWS Console
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_ECSServiceCreated.png)
+- I created a task-definition: [`backend-flask.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/task-definitions/backend-flask.json) then Registered it by running:
+  ```sh
+  aws ecs register-task-definition --cli-input-json "file://aws/task-definitions/backend-flask.json"
+  ```
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_taskDefinitionBE.png)
+- Next, I created a Service in the ECS Cluster.
+  - **Creating Security Group** for to be used for this service, I used the commands:
+  - To get the `default VPC ID`, I used:
+    ```sh
+    export DEFAULT_VPC_ID=$(aws ec2 describe-vpcs \
+    --filters "Name=isDefault, Values=true" \
+    --query "Vpcs[0].VpcId" \
+    --output text)
+    echo $DEFAULT_VPC_ID
+    ```
+  - Then, I proceeded to create the _Security Group_ now that I had the VPC_ID:
+    ```sh
+    export CRUD_SERVICE_SG=$(aws ec2 create-security-group \
+      --group-name "crud-srv-sg" \
+      --description "Security group for Cruddur services on ECS" \
+      --vpc-id $DEFAULT_VPC_ID \
+      --query "GroupId" --output text)
+    echo $CRUD_SERVICE_SG
+    ```
+  - Since the ECS Service has an option that allows communication over a Public IP, I exposed port 80 using:
+    ```sh
+    aws ec2 authorize-security-group-ingress \
+      --group-id $CRUD_SERVICE_SG \
+      --protocol tcp \
+      --port 80 \
+      --cidr 0.0.0.0/0
+    ```
+  - Connecting to the Container
+    ```sh
+    aws ecs execute-command  \
+      --region $AWS_DEFAULT_REGION \
+      --cluster cruddur \
+      --task 2d9f49341de0446593e3427fad73eca7 \
+      --container backend-flask \
+      --command "/bin/bash" \
+      --interactive
+    ```
+  
+#### Persisting Changes to my Environment
+- I updated my [`gitpod.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/.gitpod.yml) to auto-install Session Manager Plugin whenever the workspace is launched. 
+
+#### Testing in AWS Console
+- I updated my `crud-srv-sg` Security Group to allow connections to the backend URL, then accessed the Public IP of the associated ENI, appended the `/api/health-check` and I was able to get back data
+ ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_ecsSG.png)
+ ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_ECSENIs.png)
+ ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_healthCheckfromECS.png)
+
  
+ 
+ 
+ 
+
 
 
 
