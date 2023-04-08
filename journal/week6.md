@@ -206,10 +206,110 @@ aws ecs create-cluster \
 - I updated my [`service-backend-flask.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/json/service-backend-flask.json) to include the _Service Configuration_ for the port mapping. i.e. instead of backend data being accessible over port 80, it should be accessible via port 4567. Then ran the `aws ecs create-service --cli-input-json "file://aws/json/service-backend-flask.json"` cmd to create the service with the updated configuration.
 - 
  
- 
 
-
-
+## Homework Challenge: Provision ALB via AWS CLI
+- To create an _Application Load Balancer_, I created a Security Group first using:
+  ```sh
+  aws ec2 create-security-group --group-name cruddur-alb-sg --description "Application Load Balancer Security Group"
+  ```
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_ALBCreatedAWS.png)
+  - I updated the security Group's inbound rules using:
+    ```sh
+    aws ec2 authorize-security-group-ingress --group-id sg-0c5c9eaec2d4b09f7 --protocol tcp --port 80 --cidr 0.0.0.0/0
+    aws ec2 authorize-security-group-ingress --group-id sg-0c5c9eaec2d4b09f7 --protocol tcp --port 443 --cidr 0.0.0.0/0
+    ```
+    ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_updateSGInboundRule.png)
+  - Next, I created the **Load Balancer** by running the command:
+    ```sh
+    aws elbv2 create-load-balancer --name cruddur-alb  \
+    --subnets subnet-027f0133dbc135d78 subnet-080af8dc081fcbf57 subnet-022495abe43851817 --security-groups sg-0c5c9eaec2d4b09f7
+    ```
+    ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_createALBCLI.png)
+- I updated the `crud-srv-sg` to allow incoming traffic only from the `cruddur-alb-sg`:
+  ```sh
+  aws ec2 authorize-security-group-ingress \
+    --group-id sg-02cf170484012d671 \
+    --protocol tcp \
+    --port 4567 \
+    --source-group sg-0c5c9eaec2d4b09f7
+  ```
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_SGUpdateInboundRules.png)
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_SGInboundRuleUpdated.png)
+- I created a target group
+  
+#### Testing
+- I was able to view my data @ the Load Balancer's DNS name.
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_healthCheckALB.png)
+  
+- I created S3 bucket in my AWS Console and updated the bucket permissions:
+  ```sh
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::127311923021:root"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::<my_bucket_name>/AWSLogs/<my_account_id>/*"
+        }
+    ]
+  }
+  ```
+- Modified the Load Balancer's Monitor feature to get access to the S3 bucket for access logs
+    
+    
+#### The frontend
+- I created the [`Dockerfile.prod`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/Dockerfile.prod)
+- Then added an [`nginx.conf`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/nginx.conf) configuration. Then in the `frontend-react-js` directory, ran the `npm run build`
+- To build the image, I used:
+  ```sh
+  docker build \
+  --build-arg REACT_APP_BACKEND_URL="http://cruddur-alb-1120480256.us-east-1.elb.amazonaws.com:4567" \
+  --build-arg REACT_APP_AWS_PROJECT_REGION="$AWS_DEFAULT_REGION" \
+  --build-arg REACT_APP_AWS_COGNITO_REGION="$AWS_DEFAULT_REGION" \
+  --build-arg REACT_APP_AWS_USER_POOLS_ID="us-east-1_a2pQFVD9D" \
+  --build-arg REACT_APP_CLIENT_ID="39tqubhvvkpq2li4ebajhu7ha" \
+  -t frontend-react-js \
+  -f Dockerfile.prod \
+  .
+  ```
+- I created the frontend-repo using:
+  ```sh
+   aws ecr create-repository \
+    --repository-name frontend-react-js \
+    --image-tag-mutability MUTABLE
+  ```
+- Then exported the Frontend env var:
+  ```sh
+  export ECR_FRONTEND_REACT_URL="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/frontend-react-js"
+  gp env ECR_FRONTEND_REACT_URL="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/cruddur-python"
+  ```
+- Having obtained the image URI, I updated the field in the [`frontend-react-js.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/task-definitions/frontend-react-js.json) file.
+- Then tagged the image:
+  ```sh
+  docker tag frontend-react-js:latest $ECR_FRONTEND_REACT_URL:latest
+  ```
+- Pushed the image:
+  ```sh
+  docker push $ECR_FRONTEND_REACT_URL:latest
+  ```
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_dockerImagePushed.png)
+- Run & tested the image:
+  ```sh
+  docker run --rm -p 3000:3000 -it frontend-react-js 
+  ```
+- I registered the task definition for the frontend [`frontend-react-js.json`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/json/service-frontend-react-js.json) using:
+  ```sh
+  aws ecs register-task-definition --cli-input-json "file://aws/task-definitions/frontend-react-js.json"
+  ```
+- I created the Service using:
+  ```sh
+  aws ecs create-service --cli-input-json "file://aws/json/service-frontend-react-js.json"
+  ```
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_ecsFrontendServiceCLI.png)
+  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_frontendServiceECS.png)
 
 
 
