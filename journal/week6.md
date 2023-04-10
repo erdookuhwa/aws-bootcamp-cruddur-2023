@@ -242,7 +242,7 @@ aws ecs create-cluster \
   ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/week6_healthCheckALB.png)
   
 - I created S3 bucket in my AWS Console and updated the bucket permissions:
-  ```sh
+  ```json
   {
     "Version": "2012-10-17",
     "Statement": [
@@ -257,7 +257,22 @@ aws ecs create-cluster \
     ]
   }
   ```
-- Modified the Load Balancer's Monitor feature to get access to the S3 bucket for access logs
+- Modified the Load Balancer's Monitor feature to get access to the S3 bucket for access logs. I updated my bucket's permissions like so:
+  ```json
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::<aws_elb_acct_id_for_my_region>:root"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::<my_bucket_name>/AWSLogs/<my_account_id>/*"
+        }
+    ]
+  }
+  ```
     
     
 #### The frontend
@@ -304,6 +319,8 @@ aws ecs create-cluster \
   ```sh
   aws ecs register-task-definition --cli-input-json "file://aws/task-definitions/frontend-react-js.json"
   ```
+- In the Networking section of the _frontend service_, I updated the security group to allow traffic to port 3000 from the ALB
+  ![image]()
 - I created the Service using:
   ```sh
   aws ecs create-service --cli-input-json "file://aws/json/service-frontend-react-js.json"
