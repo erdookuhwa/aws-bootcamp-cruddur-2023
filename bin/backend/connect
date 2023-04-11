@@ -1,13 +1,15 @@
 #! /usr/bin/bash
 
 if [ -z "$1" ]; then
-    echo "No TASK_ID given. e.g. ./bin/ecs/connect-to-frontend-react-js 7dd70843535f45f4b409f90a78602ca3"
+    echo "No TASK_ID given. e.g. ./bin/ecs/connect-to-backend-flask 7dd70843535f45f4b409f90a78602ca3"
     exit 1
 fi
 
 TASK_ID=$1
-CONTAINER_NAME=frontend-react-js
+CONTAINER_NAME=backend-flask
 
+echo "TASK ID: $TASK_ID"
+echo "CONTAINER NAME: $CONTAINER_NAME"
 
 aws ecs execute-command  \
     --region $AWS_DEFAULT_REGION \
