@@ -5,16 +5,22 @@ NO_COLOR='\033[0m'
 LABEL="db-seed-load"
 printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 
-seed_path=$(realpath .)/db/seed.sql
 
-echo "Loading Schema from $seed_path"
+ABS_PATH=$(readlink -f "$0")
+DB_PATH=$(dirname $ABS_PATH)
+BIN_PATH=$(dirname $DB_PATH)
+PROJECT_PATH=$(dirname $BIN_PATH)
+BACKEND_FLASK_PATH="$PROJECT_PATH/backend-flask"
+seed_path="$BACKEND_FLASK_PATH/db/seed.sql"
+
+echo "Loading Schema from: $seed_path"
 
 if [ "$1" = "prod" ]; then
 # with $1 when running the file, pass in an arg. e.g. Instead of running at terminal ./bin/db-seed-load, use ./bin/db-seed-load prod to test the case for prod
     echo "Using Production mode... "
-    CON_URL=$PROD_CONNECTION_URL
+    URL=$PROD_CONNECTION_URL
 else
-    CON_URL=$CONNECTION_URL
+    URL=$CONNECTION_URL
 fi
 
-psql $CON_URL cruddur < $seed_path
+psql $URL cruddur < $seed_path
