@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
 if [ -z "$1" ]; then
-    echo "No TASK_ID given. e.g. ./bin/ecs/connect-to-backend-flask 7dd70843535f45f4b409f90a78602ca3"
+    echo "No TASK_ID given. e.g. ./bin/ecs/connect 7dd70843535f45f4b409f90a78602ca3"
     exit 1
 fi
 
