@@ -335,13 +335,11 @@ aws ecs create-cluster \
 - Using AWS DNS service, Route53, I registered a [domain](https://cloudconceptchecker.com/) and hosted zone.
 - I used AWS Certificate Manager (ACM) to request a new certificate for my domain so I can interact with the domain via a Secured connection.
   - I validated my certificate by DNS Validation which added the records to my Route 53
-  ![image]() 
-- After my certificate was verified, in Route 53, I created records pointing my domain to my load balancer for efficient distribution of traffic. I also configured my LB's Target Group (for the frontend) with the appropriate rules.
-  ![image]()
-- In a similar fashion, after creating an A Record in my Hosted Zone for all Backend-related requested. i.e. via `api.cloudconceptchecker.com` to point to the LB, I configured my load balancer's Target Group for the backend with the appropriate rules.
-  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week6-7_manageALBRules.png)
+- After my certificate was verified, in Route 53, I created records pointing my domain to my load balancer for efficient distribution of traffic. I also configured my LB's Target Group (for the frontend) with the appropriate rules for the listeners.
+- In a similar fashion, after creating an A Record in my Hosted Zone for all Backend-related requested. i.e. via `api.cloudconceptchecker.com` to point to the LB, I configured my load balancer's Target Group for the backend with the appropriate rules for the listeners.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week6-7_manageALBRules.png)
 - Health check in hosted domain passes:
-  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week6-7_app%40HealthCheckSSL.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week6-7_app%40HealthCheckSSL.png)
 
 #### Posting Messages in Prod 
 Navigating to my domain, I was able to access my app at [cloudconceptchecker.com](https://cloudconceptchecker.com/), sign in, view and post messages!
