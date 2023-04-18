@@ -12,7 +12,7 @@
 - Before deploying, I bootstrapped my account:
   ```sh
   cdk bootstrap "aws//<my_account_id>/<region>"
- ```
+  ```
  ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week8_CDKBootstrap.png)
 - Then I deployed my resources using:
   ```sh
