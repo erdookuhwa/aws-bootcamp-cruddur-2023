@@ -20,6 +20,24 @@
   ```
 - Since I am importing my env vars, I installed the `dotenv` package using `npm i dotenv`
 
+- I persisted the installation of the cdk toolkit to my GitPod env by adding these lines in my [`gitpod.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/.gitpod.yml)
+  ```yml
+    - name: cdk
+    before: |
+      npm i aws-cdk -g
+      cd thumbing-serverless-cdk
+      npm i
+  ```
+  
+- In the process images directoy, I initialized the `Node.js` project using:
+  ```sh
+  npm init -y
+  ``` 
+- Then I installed `sharp` for rendering images [`build`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/bin/serverless/build) 
+- Next installed the SDK for S3 from terminal using:
+  ```sh
+  npm i @aws-sdk/client-s3
+  ```
 
 
 
