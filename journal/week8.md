@@ -39,7 +39,11 @@
   npm i @aws-sdk/client-s3
   ```
 
-
+- I used `cdk destroy` to tear down resources from the stack; then I created my assets S3 bucket outside of the stack so I can manage the resource separately from the rest of the stack. I achieved that using:
+  ```sh
+  aws s3api create-bucket --bucket assets.cloudconceptchecker.com --region us-east-1
+  ```
+- After creating this bucket out of the stack, I imported it to be viewable in the stack but not manageable.
 
 
 
