@@ -40,7 +40,10 @@ tasks:
       npm i
   - name: sharp
     command: |
-      source "$THEIA_WORKSPACE_ROOT/bin/avatar/sharp"
+      cd $THEIA_WORKSPACE_ROOT/aws/lambdas/process-images
+      npm i
+      rm -rf node_modules/sharp
+      SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --arch=x64 --platform=linux --libc=glibc sharp
 vscode:
   extensions:
     - 42Crunch.vscode-openapi
