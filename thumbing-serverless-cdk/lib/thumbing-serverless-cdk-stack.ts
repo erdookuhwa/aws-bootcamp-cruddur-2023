@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 // import * as snsTopic from 'aws-cdk-lib/aws-sns-subscriptions';
 import { Construct } from 'constructs';
@@ -30,12 +31,18 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
     console.log('functionPath', functionPath)
 
     // const bucket = this.createBucket(bucketName);
-    const bucket = this.importBucket(bucketName);
+    const assetsBucket = this.importBucket(bucketName);
     const lambda = this.createLambda(functionPath, bucketName, folderInput, folderOutput);
 
       // add our s3 event notifications
-    this.createS3NotifyToLambda(folderInput, lambda, bucket);
+    this.createS3NotifyToLambda(folderInput, lambda, assetsBucket);
     // this.createS3NotifyToSns(folderOutput, snsTopic, assetsBucket);
+
+    // s3 policies
+    const s3AssetsReadWritePolicy = this.createPolicyBucketAccess(assetsBucket.bucketArn);
+
+    // attach policies
+    lambda.addToRolePolicy(s3AssetsReadWritePolicy);
   }
 
   // create s3 bucket Resource & Policy
@@ -79,4 +86,19 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
       //{prefix: prefix} // folder to contain the original images
     )
   }
+
+  // create S3 Bucket Policy
+  createPolicyBucketAccess(bucketArn: string) {
+    const s3ReadWritePolicy = new iam.PolicyStatement({
+      actions: [
+        's3:GetObject',
+        's3:PutObject',
+      ],
+      resources: [
+        `${bucketArn}/*`,
+      ]
+    });
+    return s3ReadWritePolicy;
+  }
+
 }
