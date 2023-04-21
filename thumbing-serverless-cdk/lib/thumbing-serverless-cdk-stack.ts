@@ -46,13 +46,15 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
 
     // create notifications from s3 put events
     this.createS3NotifyToSns(folderOutput, snsTopic, assetsBucket);
-    this.createS3NotifyToLambda(folderInput, lambda, assetsBucket);
+    this.createS3NotifyToLambda(folderInput, lambda, uploadsBucket);
 
     // create policies
+    const s3UploadsReadWritePolicy = this.createPolicyBucketAccess(uploadsBucket.bucketArn);
     const s3AssetsReadWritePolicy = this.createPolicyBucketAccess(assetsBucket.bucketArn);
     // const snsPublishPolicy = this.createPolicySnSPublish(snsTopic.topicArn);
 
     // attach policies
+    lambda.addToRolePolicy(s3UploadsReadWritePolicy);
     lambda.addToRolePolicy(s3AssetsReadWritePolicy);
     // lambda.addToRolePolicy(snsPublishPolicy);
   }
@@ -79,8 +81,7 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
       handler: 'index.handler',
       code: lambda.Code.fromAsset(functionPath),
       environment: {
-        UPLOADS_BUCKET_NAME: uploadsBucketName,
-        ASSETS_BUCKET_NAME: assetsBucketName,
+        DEST_BUCKET_NAME: assetsBucketName,
         FOLDER_INPUT: folderInput,
         FOLDER_OUTPUT: folderOutput,
         PROCESS_WIDTH: '512',
@@ -95,8 +96,8 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
     const destination = new s3n.LambdaDestination(lambda);
     bucket.addEventNotification(
       s3.EventType.OBJECT_CREATED_PUT,
-      destination,
-      {prefix: prefix} // folder to contain the original images
+      destination
+      // {prefix: prefix} // folder to contain the original images
     )
   }
 
