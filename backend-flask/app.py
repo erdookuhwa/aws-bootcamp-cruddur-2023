@@ -156,8 +156,8 @@ def data_messages(message_group_uuid):
     claims = cognito_jwt_token.verify(access_token)
     cognito_user_id = claims['sub']
     model = Messages.run(
-        message_group_uuid=message_group_uuid,
-        cognito_user_id=cognito_user_id
+        cognito_user_id=cognito_user_id,
+        message_group_uuid=message_group_uuid
       )
     if model['errors'] is not None:
       return model['errors'], 422
@@ -173,12 +173,11 @@ def data_create_message():
   message_group_uuid = request.json.get('message_group_uuid', None)
   user_receiver_handle = request.json.get('handle', None)
   message = request.json['message']
-
   access_token = extract_access_token(request.headers)
   try:
     claims = cognito_jwt_token.verify(access_token)
-    # authenicatied request
-    app.logger.debug("authenicated")
+    # authenticatied request
+    app.logger.debug("authenticated")
     app.logger.debug(claims)
     cognito_user_id = claims['sub']
     if message_group_uuid == None:
@@ -202,14 +201,14 @@ def data_create_message():
     else:
       return model['data'], 200
   except TokenVerifyError as e:
-    # unauthenicatied request
+    # unauthenticatied request
     app.logger.debug(e)
     return {}, 401
 
 
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
-  data = HomeActivities.run()
+  # data = HomeActivities.run()
   access_token = extract_access_token(request.headers)
   try:
     claims = cognito_jwt_token.verify(access_token)
@@ -262,7 +261,7 @@ def data_activities():
   return
 
 @app.route("/api/activities/<string:activity_uuid>", methods=['GET'])
-# @xray_recorder.capture('activities_show')
+@xray_recorder.capture('activities_show')
 def data_show_activity(activity_uuid):
   data = ShowActivity.run(activity_uuid=activity_uuid)
   return data, 200
