@@ -8,6 +8,6 @@ from lib.db import db
 class HomeActivities:
   def run(cognito_user_id=None):
     # logger.info("bootcamp home activities logs")
-    sql = db.template('activities','home')
+    sql = db.template('activities', 'home')
     results = db.query_array_json(sql)
     return results
