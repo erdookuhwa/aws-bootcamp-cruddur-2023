@@ -35,7 +35,6 @@ def get_cognito_user_ids():
   }
   response = client.list_users(**params)
   users = response['Users']
-
   dict_users = {}
   for user in users:
     attrs   = user['Attributes']
