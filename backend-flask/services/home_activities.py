@@ -10,4 +10,5 @@ class HomeActivities:
     # logger.info("bootcamp home activities logs")
     sql = db.template('activities', 'home')
     results = db.query_array_json(sql)
+    print('RESULTS!!!', results)
     return results

@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from lib.db import db
 # from aws_xray_sdk import xray_recorder
 
 class UserActivities:
