@@ -6,8 +6,9 @@ export default function ProfileHeading(props) {
   const styles = {
     backgroundImage: backgroundImage,
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: 'center'
   };
+  console.log('PROPS: ', props.profile)
   return (
   <div className='activity_feed_heading profile_heading'>
     <div className='title'>{props.profile.display_name}</div>

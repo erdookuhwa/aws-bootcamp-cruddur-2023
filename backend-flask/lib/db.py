@@ -61,8 +61,8 @@ class Db:
       self.print_sql_err(err)
 
   def query_array_json(self, sql, params={}, verbose=True):
-    if verbose:
-      self.print_sql('array', sql, params)
+    # if verbose:
+    self.print_sql('array', sql, params)
 
     wrapped_sql = self.query_wrap_array(sql)
     with self.pool.connection() as conn:

@@ -1,14 +1,14 @@
 import './ProfileForm.css';
 import React from "react";
 import process from 'process';
-import { getAccessToken } from '../lib/CheckAuth';
+import { getAccessToken } from 'lib/CheckAuth';
 
 export default function ProfileForm(props) {
   const [bio, setBio] = React.useState(0);
   const [displayName, setDisplayName] = React.useState(0);
 
   React.useEffect(()=>{
-    console.log('useEffects',props)
+    console.log('useEffects', props)
     setBio(props.profile.bio);
     setDisplayName(props.profile.display_name);
   }, [props.profile])
@@ -53,7 +53,6 @@ export default function ProfileForm(props) {
   }
 
   const close = (event)=> {
-    console.log('close',event.target)
     if (event.target.classList.contains("profile_popup")) {
       props.setPopped(false)
     }
