@@ -11,6 +11,7 @@ export default function DesktopNavigation(props) {
   let notificationsLink;
   let messagesLink;
   let profileLink;
+  // console.log('USER PROPS:', props.user)
   if (props.user) {
     button = <CrudButton setPopped={props.setPopped} />;
     profile = <ProfileInfo user={props.user} />;
@@ -25,7 +26,7 @@ export default function DesktopNavigation(props) {
       handle="messages" 
       active={props.active} />
     profileLink = <DesktopNavigationLink 
-      url="/@everlygrandest" 
+      url={"@" + props.user.handle}
       name="Profile"
       handle="profile"
       active={props.active} />

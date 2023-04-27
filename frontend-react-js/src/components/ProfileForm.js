@@ -4,8 +4,9 @@ import process from 'process';
 import { getAccessToken } from 'lib/CheckAuth';
 
 export default function ProfileForm(props) {
-  const [bio, setBio] = React.useState(0);
-  const [displayName, setDisplayName] = React.useState(0);
+  const [bio, setBio] = React.useState('');
+  const [displayName, setDisplayName] = React.useState('');
+
 
   React.useEffect(()=>{
     console.log('useEffects', props)
@@ -13,6 +14,8 @@ export default function ProfileForm(props) {
     setDisplayName(props.profile.display_name);
   }, [props.profile])
 
+  console.log('PROPS AFTER useEffect', props)
+  
   const onsubmit = async (event) => {
     event.preventDefault();
     try {
