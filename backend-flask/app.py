@@ -178,7 +178,7 @@ def data_update_profile():
   try:
     claims = cognito_jwt_token.verify(access_token)
     cognito_user_id = claims['sub']
-    UpdateProfile.run(
+    model = UpdateProfile.run(
       cognito_user_id=cognito_user_id,
       bio=bio,
       display_name=display_name
@@ -237,6 +237,8 @@ def data_home():
   access_token = extract_access_token(request.headers)
   try:
     claims = cognito_jwt_token.verify(access_token)
+    app.logger.debug("ACCESS_TOKEN IS ===================>>>>>>>> ")
+    app.logger.debug(access_token)
     # authenticated request
     app.logger.debug("authenticated")
     app.logger.debug(claims)
