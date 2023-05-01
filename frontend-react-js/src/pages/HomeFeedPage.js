@@ -21,21 +21,23 @@ export default function HomeFeedPage() {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
       await getAccessToken()
       const access_token = localStorage.getItem("access_token")
-      console.log("ACCESS TOKEN FE is ===================>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<< ", access_token)
+      // console.log("ACCESS TOKEN FE is ===================>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<< ", access_token)
       const res = await fetch(backend_url, {
         headers: {
           Authorization: `Bearer ${access_token}`
         },
         method: "GET"
       });
+      console.log('RESULT FETCHED IS ==================', res)
       let resJson = await res.json();
       if (res.status === 200) {
         setActivities(resJson)
+        console.log('HERES YOUR RESjson -------->>>>>', resJson)
       } else {
-        console.log(res)
+        console.log('ERROR from /api/activities/home ------->>>>>>>>>', res)
       }
     } catch (err) {
-      console.log(err);
+      console.log('ERROR CAUGHT IS: ====>>>>> ', err);
     }
   };
 
