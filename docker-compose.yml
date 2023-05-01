@@ -52,6 +52,8 @@ services:
       - POSTGRES_PASSWORD=password
     ports:
       - '5432:5432'
+    networks:
+      - cruddur-net
     volumes: 
       - db:/var/lib/postgresql/data
 # the name flag is a hack to change the default prepend folder name when outputting the image names
