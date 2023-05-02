@@ -67,6 +67,18 @@
     ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week8_cloudFrontImgURL.png)
 
 
+#### Implementing My User's Profile Page
+- As part of automating my process flow, I created the [`bootstrap`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/bin/bootstrap) script which authenticates my Docker client to ECR, and then generates my _frontend_ and _backend_ env files.
+- Now that my env is set, I created the [`show.sql`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/db/sql/users/show.sql) query which selects certain user attributes from an activity where there is a matching _user_handle_. And then updated my [`user_activities.py`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/backend-flask/services/user_activities.py) to use the `show` query.
+- On the frontend, I updated my [`UserFeedPage.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/UserFeedPage.js) file to set the _activities_ and _profile_ from the _results_ after fetching from the backend.
+  - I also added the _[`ActivityFeed.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/components/ActivityFeed.js)_ component to render the user's activities on this page.
+  - I made a similar update to my _[`HomeFeedPage.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/pages/HomeFeedPage.js)_ page.
+  ###### Editing Profile
+  - I created the [`EditProfileButton.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/components/EditProfileButton.js) component to allow editing of the profile page when the _Edit Profile_ button is clicked.
+- Next, I created the [`ProfileHeading.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/frontend-react-js/src/components/ProfileHeading.js) component to handle display of user's profile related data.
+- ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week8_profile.png)
+
+
 
 
 
