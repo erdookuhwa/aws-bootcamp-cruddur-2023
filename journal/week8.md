@@ -131,7 +131,9 @@ So, users of the app should have the ability to upload their avatar (_profile pi
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/5050be2ca2afa79eb774c64ba2a6d3fa0e9086e0/_docs/assets/Week8_configureIntegrations.png)
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/5050be2ca2afa79eb774c64ba2a6d3fa0e9086e0/_docs/assets/Week8_attachAuthorizer.png)
   - Configure **CORS** _GET_ and _OPTIONS_ methods. Access to *.gitpod.io
-- In [`ProfileForm.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/ae4a0157355f23c9ddc1670a0c4f9a6d8d6157ea/frontend-react-js/src/components/ProfileForm.js), I have added the function to make a call to the upload route.
+- In [`ProfileForm.js`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/ae4a0157355f23c9ddc1670a0c4f9a6d8d6157ea/frontend-react-js/src/components/ProfileForm.js), I have added the function to make a call to the presigned URL & upload avatar (unsuccessful atm 🛑)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/5050be2ca2afa79eb774c64ba2a6d3fa0e9086e0/_docs/assets/Week8_uploadAvatar.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/5050be2ca2afa79eb774c64ba2a6d3fa0e9086e0/_docs/assets/Week8_uploadAvatarLogs.png)
 
 
 
