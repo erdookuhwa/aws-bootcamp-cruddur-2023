@@ -2,7 +2,7 @@ require 'aws-sdk-s3'
 require 'json'
 
 def handler(event:, context:)
-  puts event
+  puts "Event is #{event}"
   s3 = Aws::S3::Resource.new
   bucket_name = ENV["UPLOADS_BUCKET_NAME"]
   object_key = 'mock.jpg'
@@ -14,7 +14,7 @@ def handler(event:, context:)
   {
     headers: {
       "Access-Control-Allow-Headers": "*, Authorization",
-      "Access-Control-Allow-Origin": "https://erdookuhwa-awsbootcampc-a1v6tt1y0ts.ws-us96b.gitpod.io",
+      "Access-Control-Allow-Origin": "https://3000-erdookuhwa-awsbootcampc-51oqkh3gt3n.ws-us96b.gitpod.io",
       "Access-Control-Allow-Methods": "OPTIONS, GET, POST"
     },
     statusCode: 200, 
