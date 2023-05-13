@@ -86,8 +86,27 @@
  - Exported the artifacts bucket into a variable and added this guide in the cfn [`README.md`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/b2a8dad860147dccce1f6823e40755af8c02b928/aws/cfn/Readme.md)
  - Created a networking [`template.yaml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/b2a8dad860147dccce1f6823e40755af8c02b928/aws/cfn/ecs/template.yaml) for network resources including VPC, IGW, Route Tables, Subnets, etc.
  - Created a bash script for deploying these network resources: [`network-deploy`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/b2a8dad860147dccce1f6823e40755af8c02b928/bin/cfn/network-deploy)
- 
- 
+ - After validating my template using:
+  ```yml
+    aws cloudformation validate-template --template-body file:///workspace/aws-bootcamp-cruddur-2023/aws/cfn/ecs/template.yaml
+  ```
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2a6b15b1a9519cf2db499ab4456589823ce3417f/_docs/assets/Week10-11_cfnValidateNetworking.png)
+ - The template was deployed using the `network-deploy` script
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2a6b15b1a9519cf2db499ab4456589823ce3417f/_docs/assets/Week10-11_cfnNetworkDeploy.png)
+##### Resources Deployed
+- CloudFormation Stack:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2a6b15b1a9519cf2db499ab4456589823ce3417f/_docs/assets/Week10-11_cfnNetworkStackCreating.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2a6b15b1a9519cf2db499ab4456589823ce3417f/_docs/assets/Week10-11_cfnNetworkStack.png)
+- VPC:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2a6b15b1a9519cf2db499ab4456589823ce3417f/_docs/assets/Week10-11_cfnVPC.png)
+- Subnets:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2a6b15b1a9519cf2db499ab4456589823ce3417f/_docs/assets/Week10-11_cfnSubnets.png)
+- Route Table:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2a6b15b1a9519cf2db499ab4456589823ce3417f/_docs/assets/Week10-11_cfnRouteTable.png)
+- Template uploaded to S3 artifacts bucket:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2a6b15b1a9519cf2db499ab4456589823ce3417f/_docs/assets/Week10-11_cfnTemplateS3.png)
+
+
  
  
  
