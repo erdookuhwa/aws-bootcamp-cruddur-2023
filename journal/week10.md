@@ -107,11 +107,27 @@
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2a6b15b1a9519cf2db499ab4456589823ce3417f/_docs/assets/Week10-11_cfnTemplateS3.png)
 
 
- 
- 
- 
- 
- 
+#### CFN Cluster _Detailed Build_
+- Updated the [`template.yaml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/8d9ebbf431816116da34434514cc4624f6c4ee51/aws/cfn/ecs/template.yaml) for the ECS Cluster build adding more _Parameters and Resources_ to support the cluster.
+- Before deploying, need to set the _Certificate_Arn_ which was done using `TOML`
+
+##### CFN TOML
+`cfn-toml` will read a file designed to be used with CloudFormation CLI commands within a bash script.
+- Installed toml by running the command in terminal. Also added the line to [`gitpod.yml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/8d9ebbf431816116da34434514cc4624f6c4ee51/.gitpod.yml) to persist it for use in GitPod
+  ```sh
+  gem install cfn-toml
+  ```
+##### CFN Files
+- The template file for cfn-toml configurations can be found in the [`config.toml.example`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/8d9ebbf431816116da34434514cc4624f6c4ee51/aws/cfn/networking/config.toml.example)
+- To get the Certificate Arn for use in the Cluster (ECS) template.yaml, the [`config.toml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/8d9ebbf431816116da34434514cc4624f6c4ee51/aws/cfn/ecs/config.toml) specifies the parameters for this
+- Wrote a [`config.toml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/8d9ebbf431816116da34434514cc4624f6c4ee51/aws/cfn/networking/config.toml) for the networking and updated the [`network-deploy`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/8d9ebbf431816116da34434514cc4624f6c4ee51/bin/cfn/network-deploy) script
+- Also updated the [`template.yaml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/8d9ebbf431816116da34434514cc4624f6c4ee51/aws/cfn/networking/template.yaml) for the networking to reference the right Public & Private Subnets differently
+
+###### Deployed
+- Cluster and Network stacks deployed successfully:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_cfnCluster%26NetworkStacks.png)
+- ALB and listeners provisioned from CF stack:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_cfnClusterALB.png)
  
  
  
