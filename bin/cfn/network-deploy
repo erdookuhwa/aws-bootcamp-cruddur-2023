@@ -7,8 +7,9 @@ echo "CFN PATH ==>>> $CFN_PATH"
 cfn-lint $CFN_PATH
 
 aws cloudformation deploy \
-  --stack-name "Cruddur-Network" \
+  --stack-name "Cruddur-Network-Cfn" \
   --s3-bucket $CFN_BUCKET \
   --template-file "$CFN_PATH" \
   --no-execute-changeset \
+  --tags group=cruddur-networking \
   --capabilities CAPABILITY_NAMED_IAM
