@@ -129,10 +129,46 @@
 - ALB and listeners provisioned from CF stack:
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_cfnClusterALB.png)
  
- 
- 
- 
- 
+
+#### CFN RDS
+- For deploying the RDS instance, used this [`template.yaml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/cfn/db/template.yaml) using the [`config.toml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/cfn/db/config.toml)
+- Modified the template.yaml for the cluster to create a Service SG which can allow access to the RDS SG
+  ```yaml
+    ...
+    # We have to create this SG before the service so we can pass it to database SG
+    ServiceSG:
+      # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupName: !Sub "${AWS::StackName}ServSG"
+        GroupDescription: Security Group for Fargate Services for Cruddur
+        VpcId:
+          Fn::ImportValue:
+            !Sub ${NetworkingStack}VpcId
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            SourceSecurityGroupId: !GetAtt ALBSG.GroupId
+            FromPort: 80
+            ToPort: 80
+            Description: ALB HTTP
+    ...
+    ...
+    ServiceSecurityGroupId:
+    Value: !GetAtt ServiceSG.GroupId
+    Export:
+      Name: !Sub "${AWS::StackName}ServiceSecurityGroupId"
+    ...
+  ```
+##### Deployed
+- Deployed the cluster stack to add the new SG
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_cfnClusterStackAddSG.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_cfnClusterServSG.png)
+- Deployed the DB stack using the [`db-deploy`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/bin/cfn/db-deploy) script
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_cfnDBDeploy.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_cfnDBStack.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_cfnRDSInstance.png)
+- In AWS Console, modified the _Connection_URL_ in Parameter Store (Systems Manager) to point to the newly provisioned RDS' endpoint.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_DBParameterStoreConnModified.png)
  
  
  
