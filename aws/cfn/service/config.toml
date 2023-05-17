@@ -1,0 +1,4 @@
+[deploy]
+bucket = 'ek-cfn-artifacts'
+region = 'us-east-1'
+stack_name = 'Cruddur-Backend-Service-Cfn'
