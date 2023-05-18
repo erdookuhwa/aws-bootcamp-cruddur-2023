@@ -218,6 +218,7 @@ Resources:
         HttpCode: 200
       Protocol: HTTP
       ProtocolVersion: HTTP2
+      TargetType: ip
       TargetGroupAttributes: 
         - Key: deregistration_delay.timeout_seconds
           Value: 0
