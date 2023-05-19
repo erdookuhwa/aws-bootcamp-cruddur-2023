@@ -24,13 +24,13 @@ Parameters:
     Default: '512'
   ServiceName:
     Type: String
-    Default: backend-flask-cfn
+    Default: backend-flask
   ContainerName:
     Type: String
-    Default: backend-flask-cfn
+    Default: backend-flask
   TaskFamily:
     Type: String
-    Default: backend-flask-cfn
+    Default: backend-flask
   EcrImage:
     Type: String
     Default: '882139169766.dkr.ecr.us-east-1.amazonaws.com/backend-flask'
@@ -102,8 +102,8 @@ Resources:
       LaunchType: FARGATE
       LoadBalancers:
       # TODO - UPDATE THIS
-        - TargetGroupArn: 'arn:aws:elasticloadbalancing:us-east-1:882139169766:targetgroup/Cruddur-Cluster-CfnBackendTG/f97d4d7207eb5ef7'
-          ContainerName: 'backend-flask-cfn'
+        - TargetGroupArn: 'arn:aws:elasticloadbalancing:us-east-1:882139169766:targetgroup/Cruddur-Cluster-CfnBackendTG/e9947422e59e9137'
+          ContainerName: 'backend-flask'
           ContainerPort: !Ref ContainerPort
       NetworkConfiguration:
         AwsvpcConfiguration:
@@ -117,11 +117,21 @@ Resources:
                   !Sub "${NetworkingStack}PublicSubnetIds"
       PlatformVersion: LATEST
       PropagateTags: SERVICE
-      ServiceRegistries:
-        - RegistryArn: !Sub 'arn:aws:servicediscovery:${AWS::Region}:${AWS::AccountId}:service/srv-cruddur-backend-flask'
-          Port: !Ref ContainerPort
-          ContainerName: 'backend-flask-cfn'
-          ContainerPort: !Ref ContainerPort
+      ServiceConnectConfiguration:
+        Enabled: true
+        Namespace: "cruddur-cfn"
+        # TODO - If you want to log
+        # LogConfiguration
+        Services:
+          - DiscoveryName: backend-flask
+            PortName: backend-flask
+            ClientAliases:
+              - Port: !Ref ContainerPort
+      # ServiceRegistries:
+      #   - RegistryArn: !Sub 'arn:aws:servicediscovery:${AWS::Region}:${AWS::AccountId}:service/srv-cruddur-backend-flask'
+      #     Port: !Ref ContainerPort
+      #     ContainerName: 'backend-flask'
+      #     ContainerPort: !Ref ContainerPort
       ServiceName: !Ref ServiceName
       TaskDefinition: !Ref TaskDefinition
 
@@ -146,13 +156,13 @@ Resources:
             - Name: 'xray'
               ContainerPort: 2000
               Protocol: 'udp'
-        - Name: 'backend-flask-cfn'
+        - Name: 'backend-flask'
           Image: !Ref EcrImage 
           Essential: true
           HealthCheck:
             Command:
               - 'CMD-SHELL'
-              - 'python /backend-flask-cfn/bin/health-check'
+              - 'python /backend-flask/bin/health-check'
             Interval: 30
             Timeout: 5
             Retries: 3

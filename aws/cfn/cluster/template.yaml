@@ -88,7 +88,7 @@ Resources:
           # KmsKeyId: !Ref KmsKeyId
           Logging: DEFAULT
       ServiceConnectDefaults:
-        Namespace: cruddur
+        Namespace: cruddur-cfn
   ALB:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-loadbalancer.html
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
