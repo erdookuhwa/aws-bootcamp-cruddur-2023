@@ -83,6 +83,9 @@
     ```
   
  #### CFN Networking
+ View the Network Diagram in Lucid [here](https://lucid.app/lucidchart/841c461f-d3f2-425d-9377-12e213a703ae/edit?viewport_loc=-1463%2C-232%2C3204%2C1662%2C0_0&invitationId=inv_fdceca6f-ee19-4f0b-9072-6d3488ebf139)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/assets/64602124/951aca1a-c5f1-4be2-b81c-c27b161adf6b)
+
  - Exported the artifacts bucket into a variable and added this guide in the cfn [`README.md`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/b2a8dad860147dccce1f6823e40755af8c02b928/aws/cfn/Readme.md)
  - Created a networking [`template.yaml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/b2a8dad860147dccce1f6823e40755af8c02b928/aws/cfn/ecs/template.yaml) for network resources including VPC, IGW, Route Tables, Subnets, etc.
  - Created a bash script for deploying these network resources: [`network-deploy`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/b2a8dad860147dccce1f6823e40755af8c02b928/bin/cfn/network-deploy)
