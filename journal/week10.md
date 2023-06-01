@@ -138,6 +138,9 @@
  
 
 #### CFN RDS
+**Architecture Diagram**
+- _View in [Lucid](https://lucid.app/lucidchart/841c461f-d3f2-425d-9377-12e213a703ae/edit?viewport_loc=-1463%2C-232%2C3204%2C1662%2C0_0&invitationId=inv_fdceca6f-ee19-4f0b-9072-6d3488ebf139)_
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/Week10-11_architecture_Service-RDS-Layer.png)
 - For deploying the RDS instance, used this [`template.yaml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/cfn/db/template.yaml) using the [`config.toml`](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/aws/cfn/db/config.toml)
 - Modified the template.yaml for the cluster to create a Service SG which can allow access to the RDS SG
   ```yaml
