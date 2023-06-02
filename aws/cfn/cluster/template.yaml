@@ -9,7 +9,7 @@ Description: |
     - Certificate attached from ACM
   - ALB Security Group
   - HTTPS Listener
-    - send naked domain to frontend Target Group
+    - send root domain to frontend Target Group
     - send api. subdomain to backend Target Group
   - HTTP Listener
     - redirects to HTTPS Listener
