@@ -104,7 +104,7 @@ Resources:
       PropagateTags: SERVICE
       ServiceConnectConfiguration:
         Enabled: true
-        Namespace: "cruddur-cfn"
+        Namespace: "cloudconceptchecker"
         # TODO - If you want to log
         # LogConfiguration
         Services:
