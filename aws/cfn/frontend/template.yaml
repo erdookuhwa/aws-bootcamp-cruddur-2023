@@ -77,7 +77,7 @@ Resources:
         Aliases:
           - cloudconceptchecker.com
           - www.cloudconceptchecker.com
-        Comment: Frontend React Js for Cruddur
+        Comment: Frontend React JS for Cruddur
         Enabled: true
         HttpVersion: http2and3 
         DefaultRootObject: index.html
