@@ -18,6 +18,7 @@ export default function ActivityForm(props) {
     event.preventDefault();
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities`
+      console.log('onsubmit payload', message)
       const res = await fetch(backend_url, {
         method: "POST",
         headers: {
@@ -25,7 +26,6 @@ export default function ActivityForm(props) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          user_handle: props.user_handle.handle,
           message: message,
           ttl: ttl
         }),
