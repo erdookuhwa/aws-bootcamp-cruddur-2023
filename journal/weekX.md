@@ -59,12 +59,39 @@
   - This is because in our generated `sync.env`, we specify only the output directory but sync is looking for a file to place the change set in. Fix by appending a placeholder after `/tmp`:
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/e6daf4d7d9088e4953d30ae0ea0eb2778a1a0ddf/_docs/assets/WeekX_fixSyncError.png)
 
+### Post Lambda Confirmation
+- Updated the [cruddur-post-confirmation.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6df0283e45cd20456caccd1f73f1dfe7787ca102/aws/lambdas/cruddur-post-confirmation.py) function in AWS Console.
+- Updated the env var with the new DB credentials
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/_docs/assets/WeekX_lambdaEnvVar.png)
+- Checked and verified that my API Gateway triggers were in place and had the right authorization and integration
 
+##### Posting a Crud
+- Modified the `data_activities` function in [app.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/backend-flask/app.py) to handle authorization and create activity via `cognito_user_id`
+- Updated [seed.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/backend-flask/db/seed.sql), added user already in my Cognito in AWS
+- Updated query in [create.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/backend-flask/db/sql/activities/create.sql) to base select on `cognito_user_id`
+- Updated the [create_service.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/backend-flask/services/create_activity.py) service to use `cognito_user_id`
+- Added authorization handling in [ActivityForm.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/frontend-react-js/src/components/ActivityForm.js)
 
+###### Issues with Posting a Crud in Prod
+- After making all these changes, I was unable to post a crud in Prod. ❗*__`CORS`__*❗😏 To resolve, I did the following:
+  - Loaded schema to prod by running the [schema-load](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/db/schema-load)
+  - Seeded the prod data considering the seed.sql was just modified; used the [seed](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/db/seed) script
+  - Connected to the prod db using the [connect](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/db/connect) script and updated the `cognito_user_id` field of the users table to match the user `sub` in Cognito. i.e. for same user in prod.
 
+- For my hosted app to get all these new changes, I had to update the _task-definition of my backend service_
+  - I re-built the image using the [build](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/backend/build) script
+  - Pushed image using the [push](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/backend/push) script
+  - Registered the new task definition using the [register](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/backend/register) script
+  - Deployed the new service to use the newly (latest) registered task definition
 
+- Finally, post was successful! 🥳
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6cc505ae2ba10866131cdd484527edce2ab9d0b0/_docs/assets/WeekX_postCrudFromDomain.png)
 
-
+### CICD Pipeline
+- Update templates
+- Run script to update changeset. _Execute changeset_
+- Trigger build by merging to prod branch
+- 
 
 
 
