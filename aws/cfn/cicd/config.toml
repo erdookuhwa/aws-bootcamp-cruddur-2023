@@ -9,3 +9,4 @@ ClusterStack = 'Cruddur-Cluster-Cfn'
 GitHubBranch = 'prod'
 GithubRepo = 'erdookuhwa/aws-bootcamp-cruddur-2023'
 ArtifactBucketName = "ek-codepipeline-cruddur-artifacts"
+BuildSpec = 'backend/buildspec.yml'
