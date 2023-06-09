@@ -1,0 +1,11 @@
+[deploy]
+bucket = 'ek-cfn-artifacts'
+region = 'us-east-1'
+stack_name = 'Cruddur-Cicd-Cfn'
+
+[parameters]
+ServiceStack = 'Cruddur-Backend-Service-Cfn'
+ClusterStack = 'Cruddur-Cluster-Cfn'
+GitHubBranch = 'prod'
+GithubRepo = 'erdookuhwa/aws-bootcamp-cruddur-2023'
+ArtifactBucketName = "ek-codepipeline-cruddur-artifacts"

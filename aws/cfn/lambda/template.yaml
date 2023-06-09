@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  - CognitoLambda Security Group
+  - Lambda Cruddur Post Function
+  - ExecutionRole
+Parameters:
+  NetworkingStack:
+    Type: String
+    Default: Cruddur-Network-Cfn
+  ServiceStack:
+    Type: String
+    Default: Cruddur-Backend-Service-Cfn
+  FunctionName:
+    Type: String
+    Default: cruddur-post-confirmation
+  SecretsConnectionUrl:
+    Type: String
+    Default: 'arn:aws:ssm:us-east-1:882139169766:parameter/cruddur/backend-flask/CONNECTION_URL'
+
+Resources:
+  CognitoLambdaSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub "${AWS::StackName}LambdaSG"
+      GroupDescription: Allow Lambda to RDS connection
+      VpcId:
+        Fn::ImportValue:
+          !Sub ${NetworkingStack}VpcId
+
+  CruddurPostConfirmationCfn:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code: 
+        S3Bucket: ek-lambda-code
+        S3Key: my-cruddur-post-lambda.zip
+      Handler: lambda_function.lambda_handler
+      Role: !GetAtt ExecutionRole.Arn
+      Runtime: python3.9
+      Environment:
+        Variables:
+          CONNECTION_URL: !Ref SecretsConnectionUrl
+      VpcConfig:
+        SubnetIds:
+          - subnet-0703e3e7614a7baec
+          - subnet-0c1a0e8ef8632033f
+          - subnet-0decdf37b4b3b5b9d
+        SecurityGroupIds: []
+
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: LambdaVPCExecutionRole-Cfn
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:CreateNetworkInterface
+                  - ec2:DeleteNetworkInterface
+                  - ec2:DescribeNetworkInterfaces
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${FunctionName}:*"
+              - Effect: Allow
+                Action:
+                  - 'ssm:GetParameter'
+                Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/cruddur/${ServiceStack}/*"

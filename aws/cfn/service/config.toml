@@ -1,0 +1,8 @@
+[deploy]
+bucket = 'ek-cfn-artifacts'
+region = 'us-east-1'
+stack_name = 'Cruddur-Backend-Service-Cfn'
+
+[parameters]
+EnvFrontendUrl = 'https://cloudconceptchecker.com'
+EnvBackendUrl = 'https://api.cloudconceptchecker.com'
