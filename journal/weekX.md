@@ -127,6 +127,19 @@ Setting this up as a decorator, made the modification to [app.py](https://github
 - Also, modified the [NotificationsFeedPage](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/frontend-react-js/src/pages/NotificationsFeedPage.js), added check auth logic.
 
 
+### Refactoring the Backend
+- Further decoupled app by striping down [app.py]() and moving similar logic to their respective files.
+  - [helpers.py](): handling the return logic for the model
+  - [rollbar.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/lib/rollbar.py): for connecting to rollbar for error tracking
+  - [activities.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/routes/activities.py): for activities and routing of various activities
+  - [general.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/routes/general.py): handling health-check
+  - [messages.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/routes/messages.py): the logic for messaging
+  - [users.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/routes/users.py): for user data
+
+
+
+
+
 
 
 
