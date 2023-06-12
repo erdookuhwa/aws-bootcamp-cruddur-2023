@@ -72,7 +72,7 @@
 - Updated the [create_service.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/backend-flask/services/create_activity.py) service to use `cognito_user_id`
 - Added authorization handling in [ActivityForm.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/frontend-react-js/src/components/ActivityForm.js)
 
-###### Issues with Posting a Crud in Prod
+##### Issues with Posting a Crud in Prod
 - After making all these changes, I was unable to post a crud in Prod. ❗*__`CORS`__*❗😏 To resolve, I did the following:
   - Loaded schema to prod by running the [schema-load](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/db/schema-load)
   - Seeded the prod data considering the seed.sql was just modified; used the [seed](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/db/seed) script
@@ -88,10 +88,35 @@
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6cc505ae2ba10866131cdd484527edce2ab9d0b0/_docs/assets/WeekX_postCrudFromDomain.png)
 
 ### CICD Pipeline
-- Update templates
+- Update templates.
+  - [config.toml](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/0703c480d62bf0644ce5372034fdcb732bdae973/aws/cfn/cicd/config.toml): added buildspec to the config
+  - [codebuild.yml](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/0703c480d62bf0644ce5372034fdcb732bdae973/aws/cfn/cicd/nested/codebuild.yaml): added policy to allow access to the artifacts bucket
+  - [template.yml](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/0703c480d62bf0644ce5372034fdcb732bdae973/aws/cfn/cicd/template.yaml): modified the policy and added parameters for the _artifacts_ and _buildspec_
 - Run script to update changeset. _Execute changeset_
-- Trigger build by merging to prod branch
-- 
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/a4f8bf275d6fb197c0a812d1bfeb8e9ba11f6a54/_docs/assets/WeekX_CICDUpdateTemplate.png)
+- Trigger build by merging to prod branch.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/a4f8bf275d6fb197c0a812d1bfeb8e9ba11f6a54/_docs/assets/WeekX_CICDPipelineBuildSuccessful.png)
+
+
+### Refactor JWT
+#### Closing the Reply Box
+- Added the to the [ReplyForm.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2cf11937a2fe4397866e769a0a24ea7af0832f28/frontend-react-js/src/components/ReplyForm.js) close function to close the reply popup.
+  ```js
+  ...
+    const close = (event)=> {
+    if (event.target.classList.contains("reply_popup")) {
+      props.setPopped(false)
+    }
+  }
+  ...
+  <div className="popup_form_wrap reply_popup" onClick={close}>
+  ...
+  ```
+
+#### Replying to an Activity
+Setting this up as a decorator, made the modification to [app.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2cf11937a2fe4397866e769a0a24ea7af0832f28/backend-flask/app.py) and [cognito_jwt.token.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2cf11937a2fe4397866e769a0a24ea7af0832f28/backend-flask/lib/cognito_jwt_token.py)
+
+
 
 
 
