@@ -117,7 +117,14 @@
 Setting this up as a decorator, made the modification to [app.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2cf11937a2fe4397866e769a0a24ea7af0832f28/backend-flask/app.py) and [cognito_jwt.token.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2cf11937a2fe4397866e769a0a24ea7af0832f28/backend-flask/lib/cognito_jwt_token.py)
 
 
-
+### Refactoring `app.py`
+- Moved logic for different aspects of the code in [app.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/app.py) to their respective files for easy readability, maintenance, and scalability.
+  - [cloudwatch.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/cloudwatch.py)
+  - [cors.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/cors.py)
+  - [cors.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/honeycomb.py)
+  - [rollbar.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/rollbar.py)
+  - [xray.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/xray.py)
+- Also, modified the [NotificationsFeedPage](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/frontend-react-js/src/pages/NotificationsFeedPage.js), added check auth logic.
 
 
 
