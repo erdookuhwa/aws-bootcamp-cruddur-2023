@@ -137,6 +137,27 @@ Setting this up as a decorator, made the modification to [app.py](https://github
   - [users.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/routes/users.py): for user data
 
 
+### Replying to Posts
+- Modified files:
+  - [create_reply.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/services/create_reply.py)
+  - [home.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/db/sql/activities/home.sql)
+  - [object.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/db/sql/activities/object.sql)
+  - [reply.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/db/sql/activities/reply.sql)
+  - [migrate.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/bin/db/migrate)
+  - [migration](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/bin/generate/migration)
+  - [ActivityItem.css](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/frontend-react-js/src/components/ActivityItem.css)
+  - [ActivityItem.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/frontend-react-js/src/components/ActivityItem.js)
+  - [ReplyForm.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/frontend-react-js/src/components/ReplyForm.js)
+- Using our [migration]() script, ran the `./bin/generate/migration reply_to_activity_int_to_string` to generate a migration file for converting reply activity int to a string.
+  - [16867130974077687_reply_to_activity_int_to_string.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/db/migrations/16867130974077687_reply_to_activity_int_to_string.py) was generated
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_migration.png)
+- Attempted reply to a post led to an error due to wrong data types
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_errorDataType.png)
+- Running `./bin/db/migrate` to perform the migration fixed the error ⬆️
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_reply.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_repliesPostgres.png)
+
+
 
 
 
