@@ -153,8 +153,15 @@ Setting this up as a decorator, made the modification to [app.py](https://github
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_migration.png)
 - Attempted reply to a post led to an error due to wrong data types
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_errorDataType.png)
+- Might also get this error:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/WeekX_replyError.png)
+  - To resolve, manually set your `last_successful_run` to the string value from the file generated (16867130974077687) ... It's currently referring to the value for the `add_bio_column` which is incorrect. By running:
+    ```sql
+    UPDATE schema_information SET last_successful_run='16867130974077687';
+    ```
+  - Run `./bin/db/migrate` ▶️ kill connections using the [kill-all](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/bin/db/kill-all) script ▶️ [setup](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/bin/db/setup) db again
 - Running `./bin/db/migrate` to perform the migration fixed the error ⬆️
-  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_reply.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/WeekX_replyPost.png)
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_repliesPostgres.png)
 
 
