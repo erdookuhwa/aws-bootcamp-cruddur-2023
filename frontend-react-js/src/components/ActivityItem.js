@@ -15,20 +15,11 @@ export default function ActivityItem(props) {
     navigate(url)
     return false;
   }
-
-  let expanded_meta;
-  if (props.expanded === true) {
-  }
-
-
+  
   const attrs = {}
-  let item
-  if (props.expanded === true) {
-    attrs.className = 'activity_item expanded'
-  } else {
-    attrs.className = 'activity_item clickable'
-    attrs.onClick = click
-  }
+
+  attrs.className = 'activity_item clickable'
+  attrs.onClick = click
 
   return (
     <div {...attrs}>

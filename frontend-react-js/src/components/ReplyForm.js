@@ -20,26 +20,21 @@ export default function ReplyForm(props) {
   const onsubmit = async (event) => {
     event.preventDefault();
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/${props.activity.uuid}/reply`
-    payload_data = {
+    const payload_data = {
       activity_uuid: props.activity.uuid,
       message: message
     }
-    post(url,payload_data,{
+    post(url, payload_data, {
       auth: true,
       setErrors: setErrors,
-      success: function(data){
-        // add activity to the feed
-        //let activities_deep_copy = JSON.parse(JSON.stringify(props.activities))
-        //let found_activity = activities_deep_copy.find(function (element) {
-        //  return element.uuid ===  props.activity.uuid;
-        //});
-        //found_activity.replies.push(data)
-        //props.setActivities(activities_deep_copy);
-
-      // reset and close the form
-      setCount(0)
-      setMessage('')
-      props.setPopped(false)
+      success: function(data) {
+        if (props.setReplies) {
+          props.setReplies(current => [data,...current]);
+        }
+        // reset and close the form
+        setCount(0)
+        setMessage('')
+        props.setPopped(false)
       }
     })
   }
