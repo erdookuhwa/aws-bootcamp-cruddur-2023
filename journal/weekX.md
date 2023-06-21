@@ -59,10 +59,110 @@
   - This is because in our generated `sync.env`, we specify only the output directory but sync is looking for a file to place the change set in. Fix by appending a placeholder after `/tmp`:
     - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/e6daf4d7d9088e4953d30ae0ea0eb2778a1a0ddf/_docs/assets/WeekX_fixSyncError.png)
 
+### Post Lambda Confirmation
+- Updated the [cruddur-post-confirmation.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6df0283e45cd20456caccd1f73f1dfe7787ca102/aws/lambdas/cruddur-post-confirmation.py) function in AWS Console.
+- Updated the env var with the new DB credentials
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/_docs/assets/WeekX_lambdaEnvVar.png)
+- Checked and verified that my API Gateway triggers were in place and had the right authorization and integration
+
+##### Posting a Crud
+- Modified the `data_activities` function in [app.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/backend-flask/app.py) to handle authorization and create activity via `cognito_user_id`
+- Updated [seed.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/backend-flask/db/seed.sql), added user already in my Cognito in AWS
+- Updated query in [create.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/backend-flask/db/sql/activities/create.sql) to base select on `cognito_user_id`
+- Updated the [create_service.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/backend-flask/services/create_activity.py) service to use `cognito_user_id`
+- Added authorization handling in [ActivityForm.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/64505455bc183439d5d5a86338562bf0aef73ae2/frontend-react-js/src/components/ActivityForm.js)
+
+##### Issues with Posting a Crud in Prod
+- After making all these changes, I was unable to post a crud in Prod. ❗*__`CORS`__*❗😏 To resolve, I did the following:
+  - Loaded schema to prod by running the [schema-load](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/db/schema-load)
+  - Seeded the prod data considering the seed.sql was just modified; used the [seed](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/db/seed) script
+  - Connected to the prod db using the [connect](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/db/connect) script and updated the `cognito_user_id` field of the users table to match the user `sub` in Cognito. i.e. for same user in prod.
+
+- For my hosted app to get all these new changes, I had to update the _task-definition of my backend service_
+  - I re-built the image using the [build](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/backend/build) script
+  - Pushed image using the [push](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/backend/push) script
+  - Registered the new task definition using the [register](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/c0c6b277ad05cb491ae19114439df690daace5c1/bin/backend/register) script
+  - Deployed the new service to use the newly (latest) registered task definition
+
+- Finally, post was successful! 🥳
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6cc505ae2ba10866131cdd484527edce2ab9d0b0/_docs/assets/WeekX_postCrudFromDomain.png)
+
+### CICD Pipeline
+- Update templates.
+  - [config.toml](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/0703c480d62bf0644ce5372034fdcb732bdae973/aws/cfn/cicd/config.toml): added buildspec to the config
+  - [codebuild.yml](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/0703c480d62bf0644ce5372034fdcb732bdae973/aws/cfn/cicd/nested/codebuild.yaml): added policy to allow access to the artifacts bucket
+  - [template.yml](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/0703c480d62bf0644ce5372034fdcb732bdae973/aws/cfn/cicd/template.yaml): modified the policy and added parameters for the _artifacts_ and _buildspec_
+- Run script to update changeset. _Execute changeset_
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/a4f8bf275d6fb197c0a812d1bfeb8e9ba11f6a54/_docs/assets/WeekX_CICDUpdateTemplate.png)
+- Trigger build by merging to prod branch.
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/a4f8bf275d6fb197c0a812d1bfeb8e9ba11f6a54/_docs/assets/WeekX_CICDPipelineBuildSuccessful.png)
 
 
+### Refactor JWT
+#### Closing the Reply Box
+- Added the to the [ReplyForm.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2cf11937a2fe4397866e769a0a24ea7af0832f28/frontend-react-js/src/components/ReplyForm.js) close function to close the reply popup.
+  ```js
+  ...
+    const close = (event)=> {
+    if (event.target.classList.contains("reply_popup")) {
+      props.setPopped(false)
+    }
+  }
+  ...
+  <div className="popup_form_wrap reply_popup" onClick={close}>
+  ...
+  ```
+
+#### Replying to an Activity
+Setting this up as a decorator, made the modification to [app.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2cf11937a2fe4397866e769a0a24ea7af0832f28/backend-flask/app.py) and [cognito_jwt.token.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2cf11937a2fe4397866e769a0a24ea7af0832f28/backend-flask/lib/cognito_jwt_token.py)
 
 
+### Refactoring `app.py`
+- Moved logic for different aspects of the code in [app.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/app.py) to their respective files for easy readability, maintenance, and scalability.
+  - [cloudwatch.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/cloudwatch.py)
+  - [cors.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/cors.py)
+  - [cors.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/honeycomb.py)
+  - [rollbar.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/rollbar.py)
+  - [xray.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/backend-flask/lib/xray.py)
+- Also, modified the [NotificationsFeedPage](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/28bbd705b18ecbcca838ed3763cf4bd229575e9e/frontend-react-js/src/pages/NotificationsFeedPage.js), added check auth logic.
+
+
+### Refactoring the Backend
+- Further decoupled app by striping down [app.py]() and moving similar logic to their respective files.
+  - [helpers.py](): handling the return logic for the model
+  - [rollbar.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/lib/rollbar.py): for connecting to rollbar for error tracking
+  - [activities.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/routes/activities.py): for activities and routing of various activities
+  - [general.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/routes/general.py): handling health-check
+  - [messages.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/routes/messages.py): the logic for messaging
+  - [users.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/2ab47111e188b4fed75506a13ae4289911436d0e/backend-flask/routes/users.py): for user data
+
+
+### Replying to Posts
+- Modified files:
+  - [create_reply.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/services/create_reply.py)
+  - [home.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/db/sql/activities/home.sql)
+  - [object.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/db/sql/activities/object.sql)
+  - [reply.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/db/sql/activities/reply.sql)
+  - [migrate.sql](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/bin/db/migrate)
+  - [migration](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/bin/generate/migration)
+  - [ActivityItem.css](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/frontend-react-js/src/components/ActivityItem.css)
+  - [ActivityItem.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/frontend-react-js/src/components/ActivityItem.js)
+  - [ReplyForm.js](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/frontend-react-js/src/components/ReplyForm.js)
+- Using our [migration]() script, ran the `./bin/generate/migration reply_to_activity_int_to_string` to generate a migration file for converting reply activity int to a string.
+  - [16867130974077687_reply_to_activity_int_to_string.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/6dfbde3698d217949fed5c05ba18da45a3fc8423/backend-flask/db/migrations/16867130974077687_reply_to_activity_int_to_string.py) was generated
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_migration.png)
+- Attempted reply to a post led to an error due to wrong data types
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_errorDataType.png)
+- Might also get this error:
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/WeekX_replyError.png)
+  - To resolve, manually set your `last_successful_run` to the string value from the file generated (16867130974077687) ... It's currently referring to the value for the `add_bio_column` which is incorrect. By running:
+    ```sql
+    UPDATE schema_information SET last_successful_run='16867130974077687';
+    ```
+  - Run `./bin/db/migrate` ▶️ kill connections using the [kill-all](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/bin/db/kill-all) script ▶️ [setup](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/bin/db/setup) db again
+- Running `./bin/db/migrate` to perform the migration fixed the error ⬆️
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/main/_docs/assets/WeekX_replyPost.png)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_repliesPostgres.png)
 
 
 
