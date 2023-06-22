@@ -165,15 +165,25 @@ Setting this up as a decorator, made the modification to [app.py](https://github
   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/14ee9d188cf826352a085e957d392fa1d5c6390a/_docs/assets/WeekX_repliesPostgres.png)
 
 
+### UPDATING PROD
+- ./bin/db/migrate prod: to get prod data to update the data type for `reply_to_activity_uuid` field from integer to uuid
+- Reset the `CONNECTION_URL` before running migrate like so: `CONNECTION_URL=$PROD_CONNECTION_URL ./bin/db/migrate`
+- Create a PR to update the `prod` branch with the most recent commits which will re-trigger a build and deploy with the most up-to-date version of the app
+- Similarly, for the frontend, run the `./bin/frontend/static-build` ➡️ `./bin/frontend/sync` to get our frontend to the most recent version
 
+##### Update DDB Table Name
+- Previously, `ddb table_name` was hard-corded, modify this to pick up the `env var` set for it so maintenance in future can be much easier. This was achieved by updating the [ddb.py](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/722770aad84ec7336daee9c23a6929b05ba1965c/backend-flask/lib/ddb.py) file with this new field `table_name = os.getenv("DDB_MESSAGE_TABLE")`
+- Update the service by running the script `./bin/cfn/service` which updates our backend-service stack in AWS
 
+#### Creating a machine user for app access
+- Create machine-user with permissions to write to read & write to DynamoDB
+- Using the script [machineuser](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/722770aad84ec7336daee9c23a6929b05ba1965c/bin/cfn/machineuser), deploy the stack to CloudFormation using this [template](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/722770aad84ec7336daee9c23a6929b05ba1965c/aws/cfn/machine-user/template.yaml)
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/5e9815a735221a9071d995f40f321ca3a12a8c9c/_docs/assets/WeekX_cfnMachineUser.png)
+- After machineuser is created by deploying the CFN stack, in IAM, create access key via ClickOps for the user and save in Parameter Store
+  - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/5e9815a735221a9071d995f40f321ca3a12a8c9c/_docs/assets/WeekX_parameterStore.png)
 
-
-
-
-
-
-
-
-
-🚧 💻
+#### Testing
+  - Messaging from user 1
+    - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/5e9815a735221a9071d995f40f321ca3a12a8c9c/_docs/assets/WeekX_messaging1.png)
+  - Messaging from user 2
+   - ![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/5e9815a735221a9071d995f40f321ca3a12a8c9c/_docs/assets/WeekX_messaging2.png)
