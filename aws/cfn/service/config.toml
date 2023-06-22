@@ -6,3 +6,4 @@ stack_name = 'Cruddur-Backend-Service-Cfn'
 [parameters]
 EnvFrontendUrl = 'https://cloudconceptchecker.com'
 EnvBackendUrl = 'https://api.cloudconceptchecker.com'
+DDBMessageTable = 'Crddur-Ddb-Cfn-DynamoDBTable-1NYY0U8RLS1TG'
