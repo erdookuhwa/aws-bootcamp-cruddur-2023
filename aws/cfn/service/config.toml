@@ -1,9 +1,9 @@
 [deploy]
 bucket = 'ek-cfn-artifacts'
 region = 'us-east-1'
-stack_name = 'Cruddur-Backend-Service-Cfn'
+stack_name = 'CrdSrvBackendFlask'
 
 [parameters]
 EnvFrontendUrl = 'https://cloudconceptchecker.com'
 EnvBackendUrl = 'https://api.cloudconceptchecker.com'
-DDBMessageTable = 'Crddur-Ddb-Cfn-DynamoDBTable-1NYY0U8RLS1TG'
+DDBMessageTable = 'CrdDdb-DynamoDBTable-K7SZ4KQFFAI8'
