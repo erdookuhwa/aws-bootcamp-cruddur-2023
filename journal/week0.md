@@ -2,6 +2,8 @@
 
 #### Conceptual Diagram
 ![image](https://user-images.githubusercontent.com/64602124/218861357-a9f0ad16-be41-4393-9a3a-7eb92018395c.png)
+#### Napkin Diagram
+![image](https://github.com/erdookuhwa/aws-bootcamp-cruddur-2023/blob/72bd4f89acb605deec0ddc85e5512c8874a9169d/_docs/assets/Week0_napkinDiagram.png)
 
 #### Logical Architecture
 Here's a link to [view in Lucid Chart](https://lucid.app/lucidchart/e89a0ab2-aae7-4930-88b9-f6cb119be1dc/edit?invitationId=inv_caf204c3-4e28-4b8a-b39d-eb5ae1fdfaff)

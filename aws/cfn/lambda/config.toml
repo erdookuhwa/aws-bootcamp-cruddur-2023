@@ -1,8 +1,8 @@
 [deploy]
 bucket = 'ek-cfn-artifacts'
 region = 'us-east-1'
-stack_name = 'Cruddur-Lambda-Cfn'
+stack_name = 'CrdLambda'
 
 [parameters]
-NetworkingStack = 'Cruddur-Network-Cfn'
+NetworkingStack = 'CrdNet'
 LambaBucket = 'ek-lambda-code'

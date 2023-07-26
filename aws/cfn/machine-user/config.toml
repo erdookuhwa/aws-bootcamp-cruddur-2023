@@ -1,4 +1,4 @@
 [deploy]
 bucket = 'ek-cfn-artifacts'
 region = 'us-east-1'
-stack_name = 'Cruddur-MachineUser-Cfn'
+stack_name = 'CrdMachineUser'

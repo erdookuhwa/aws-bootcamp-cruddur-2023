@@ -6,10 +6,10 @@ Description: |
 Parameters:
   NetworkingStack:
     Type: String
-    Default: Cruddur-Network-Cfn
+    Default: CrdNet
   ServiceStack:
     Type: String
-    Default: Cruddur-Backend-Service-Cfn
+    Default: CrdSrvBackendFlask
   FunctionName:
     Type: String
     Default: cruddur-post-confirmation
@@ -41,9 +41,9 @@ Resources:
           CONNECTION_URL: !Ref SecretsConnectionUrl
       VpcConfig:
         SubnetIds:
-          - subnet-0703e3e7614a7baec
-          - subnet-0c1a0e8ef8632033f
-          - subnet-0decdf37b4b3b5b9d
+          - subnet-0f7824433980193b5
+          - subnet-01be255e239b16ff6
+          - subnet-0b3b8f2364a6451d3
         SecurityGroupIds: []
 
   ExecutionRole:

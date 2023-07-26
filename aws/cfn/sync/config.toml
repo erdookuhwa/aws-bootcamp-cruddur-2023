@@ -1,7 +1,7 @@
 [deploy]
 bucket = 'ek-cfn-artifacts'
 region = 'us-east-1'
-stack_name = 'Cruddur-Sync-Role-Cfn'
+stack_name = 'CrdSyncRole'
 
 [parameters]
 GitHubOrg = 'erdookuhwa'
